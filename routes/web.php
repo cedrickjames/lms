@@ -23,6 +23,24 @@ Route::get('/home', function () {
     return view('home');
 });
 
+
+Route::get('/fileALoa', function () {
+    return view('fileALoa');
+});
+Route::get('/listOfLOA', function () {
+    return view('listOfLOA');
+});
+Route::get('/loaDetails', function () {
+    return view('loaDetails');
+});
+Route::get('/approachingTheDeadline', function () {
+    return view('approachingTheDeadline');
+});
+Route::get('/overdue', function () {
+    return view('overdue');
+});
+
+
 Route::get('/submitter', function () {
     return view('submitter');
 });
