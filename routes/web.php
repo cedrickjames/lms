@@ -23,8 +23,9 @@ Route::get('/home', function () {
     return view('home');
 });
 
+Route::post('/submit-loa', [UserController::class, 'submitLoa'])->name('submit.loa');
 
-Route::get('/fileALoa', function () {
+Route::get('/fileALoa', [UserController::class, 'showFileALoa'], function () {
     return view('fileALoa');
 });
 Route::get('/listOfLOA', function () {

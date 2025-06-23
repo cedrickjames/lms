@@ -1,3 +1,22 @@
+{{-- Talagang ganyan ang buhay. Dapat ka nang masanay. Wala ring mangyayari, kung laging makikibagay. Ipakilala ang yong sarili. Anumat-anumang mangyayari. Kung lagi mong, iisipin. Kayang-kayang gawin. Pinoy, ikaw ay pinoy. Ipakita sa mundo. Kung ano ang kaya mo. Ibat-iba ang pinoy. Wag kang matatakot. Ipagmalaki mo. Pinoy ako, pinoy tayo. 
+
+Rotting in bed, numb and upset
+The hands on the clock are moving along and 
+Feels like I'm dead, but I'm here instead
+Please make it stop, Im always wrong
+
+Stuck inside my never-ending thoughts
+Im trying hard cause I know what it costs
+
+
+Cause one day, we'll run out of time
+Memories. we'll leave them behind
+Many things we cant control
+I hope you know, it's better to try
+
+
+--}}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,7 +61,7 @@
       <div class=" pt-20 px-28 2xl:pt-28  w-full md:w-8/12 lg:w-6/12 mb-12 md:mb-0 ">
 
 
-        <form action="/register" method="post" class="p-20 rounded-2xl bg-white border-4 border-[#2d3b2c]">
+        <form action="/register" method="post" class="p-20 rounded-2xl bg-white border-4 border-[#2d3b2c] bg-cover bg-no-repeat bg-[url('../../public/images/LoginBackground.png')] bg-blend-multiply">
             @csrf
           <h1 class="text-[#3b4f3a] text-2xl font-serif text-center mb-4 ">LMS Register</h1>
           <!-- <h1 class="text-gray-400 text-xl font-bold text-center mb-10">Welcome to Helpdesk System</h1> -->
@@ -101,6 +120,27 @@
             </select>
           </div>
     </div>
+
+          <div class="mb-4">
+        <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center pl-4 ps-3.5 pointer-events-none">
+              
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+</svg>
+
+            </div>
+            <select  id="users_type" name="users_type"  value="{{ old('userType') }}" autofocus  autocomplete="off" class="pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select User Type">
+              <option selected disabled  value="Please Select">Please Select</option>
+              <option  value="admin">Administrator</option>
+              <option  value="submitter">Account Holder</option>
+              <option  value="head">Department Head</option>
+
+    
+            </select>
+          </div>
+    </div>
+
 
 
           <!-- Password input -->

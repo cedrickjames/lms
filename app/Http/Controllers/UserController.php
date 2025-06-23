@@ -18,6 +18,41 @@ public function create()
      return view('register', compact('departments'));
 }
 
+public function showFileALoa()
+{
+    $typesOfLoa = DB::table('type_of_loa')->get();
+    $supplier = DB::table('supplier')->get(); // or your actual table name
+    $user = DB::table('users')->get(); // or your actual table name
+    $email = DB::table('users')->get(); 
+
+    $deptHead = DB::table('users')->where('users_type', 'head')->get();  // SELECT * FROM users WHERE users_type = 'head';
+    $deptHeadEmail = DB::table('users')->where('users_type', 'head')->get(); 
+
+    return view('fileALoa', compact('typesOfLoa', 'supplier','user','email','deptHead','deptHeadEmail'));
+}
+
+public function submitLoa(Request $request)
+{
+    DB::table('list_of_loa')->insert([
+        'loa' => $request->input('loa'),
+        'type' => $request->input('typeOfLOA'),
+        'supplier' => $request->input('supplier'),
+        'accountHolder' => $request->input('accountHolder'),
+        'accountHolderEmail' => $request->input('accountHolderEmail'),
+        'accountHolderDeptHead' => $request->input('accountHolderDeptHead'),
+        'accountHolderDeptHeadEmail' => $request->input('accountHolderDeptHeadEmail'),
+        'contractExpirationDate' => $request->input('expiry'),
+        'deadlineOfCompletion' => $request->input('deadline'),
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    return redirect()->back()->with('success', 'LOA submitted successfully!');
+}
+
+
+
+
 
 public function login(Request $request)
 {
@@ -35,7 +70,7 @@ public function login(Request $request)
         // Redirect based on user_type
         if ($user->users_type === 'admin') {
             return redirect('/home');
-        } elseif ($user->users_type === 'submitter') {
+        } else  {
             return redirect('/submitter');
         }
     }
@@ -58,7 +93,8 @@ public function register(Request $request){
             'name' => ['required', 'min:3', 'max:100', Rule::unique('users', 'name')],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'department' => ['required'],
-            'password' => ['required', 'min:5', 'max:200']
+            'password' => ['required', 'min:5', 'max:200'],
+            'users_type' => ['required']
 
         ]);
         $incomingFields['password'] = bcrypt($incomingFields['password']);

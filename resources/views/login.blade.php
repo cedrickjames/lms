@@ -51,7 +51,7 @@
       <div class=" pt-20 px-28 2xl:pt-28 2xl:pr-60 2xl:pl-28 w-full md:w-8/12 lg:w-6/12 mb-12 md:mb-0 ">
 
 
-        <form action="/login" method="post" class="p-20 rounded-2xl bg-white border-4 border-[#2d3b2c]">
+        <form action="/login" method="post" class="p-20 rounded-2xl bg-white border-4 border-[#2d3b2c] bg-cover bg-no-repeat bg-[url('../../public/images/LoginBackground.png')] bg-blend-multiply">
                 @csrf
           <h1 class="text-[#3b4f3a] text-2xl font-serif text-center mb-4 ">LMS Login</h1>
           <!-- <h1 class="text-gray-400 text-xl font-bold text-center mb-10">Welcome to Helpdesk System</h1> -->
