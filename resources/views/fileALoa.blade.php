@@ -163,7 +163,7 @@
                                 <select id="accountHolderDeptHead" name="accountHolderDeptHead" class="select2 js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option disabled selected>Select Type</option>
                             @foreach($deptHead as $deptHead)
-                                <option data-account-head-department="{{ $deptHead->department }}" data-account-head-department-id="{{ $deptHead->id }}" value="{{ $deptHead->id }}"> {{ $deptHead->name }}</option>
+                                <option data-account-head-department="{{ $deptHead->department }}" data-account-head-department-id="{{ $deptHead->id }}" value="{{ $deptHead->name }}"> {{ $deptHead->name }}</option>
                                 @endforeach
 
                                 </select>
@@ -173,7 +173,7 @@
                                 <select id="accountHolderDeptHeadEmail" name="accountHolderDeptHeadEmail" class="select2 js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option disabled selected>Select Type</option>
                              @foreach($deptHeadEmail as $deptHeadEmail)
-                                <option value="{{ $deptHeadEmail->id }}"> {{ $deptHeadEmail->email }}</option>
+                                <option data-account-holder-head-email-id="{{ $deptHeadEmail->id }}" value="{{ $deptHeadEmail->email }}"> {{ $deptHeadEmail->email }}</option>
                                 @endforeach
 
 

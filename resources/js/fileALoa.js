@@ -42,34 +42,81 @@ setTimeout(() => {
 
 
 $('#supplier').on('change', function () {
- var accountHolderId = $(this).find(':selected').data('account-holder');
+        var accountHolderId = $(this).find(':selected').data('account-holder');
 
-// $('#accountHolder').val(accountHolderId).trigger('change');
+        //******************************************************************************* */
+        //the following codes auto change the account holder based on the #supplier account-holder-id
+        $('#accountHolder option').each(function () {
+            if ($(this).data('account-holder-id') == accountHolderId) {
+                $(this).prop('selected', true);
+                
+                $('#accountHolder').trigger('change.select2'); // Trigger Select2 update if needed
+                return false; // Exit loop once found
+            }
+        });
 
-$('#accountHolder option').each(function () {
-    if ($(this).data('account-holder-id') == accountHolderId) {
-        $(this).prop('selected', true);
-        
-        $('#accountHolder').trigger('change.select2'); // Trigger Select2 update if needed
-        return false; // Exit loop once found
-    }
-});
+        //end
+        //***************************************************************************************** */
 
-$('#accountHolderEmail option').each(function () {
-    if ($(this).data('account-holder-email-id') == accountHolderId) {
-        $(this).prop('selected', true);
-        
-        $('#accountHolderEmail').trigger('change.select2'); // Trigger Select2 update if needed
-        return false; // Exit loop once found
-    }
-});
+// --------------------------------------------------------------------------------------------------------
+
+        //***************************************************************************************** */
+        //the following codes auto change the email of account holder based on the #supplier account-holder-id
+        $('#accountHolderEmail option').each(function () {
+            if ($(this).data('account-holder-email-id') == accountHolderId) {
+                $(this).prop('selected', true);
+                
+                $('#accountHolderEmail').trigger('change.select2'); // Trigger Select2 update if needed
+                return false; // Exit loop once found
+            }
+        });
+        //end
+        //***************************************************************************************** */
 
 
-// $('#accountHolderEmail').val(accountHolderId).trigger('change');
+// -----------------------------------------------------------------------------------------------------------
+
+        //***************************************************************************************** */
+            //the following code auto change the account holder's department head
+
+            var selectedDept = $('#accountHolder').find(':selected').data('account-holder-department');
+
+            if (!$('#accountHolderDeptHead').data('all-options')) {
+                    $('#accountHolderDeptHead').data('all-options', $('#accountHolderDeptHead option').clone());
+                }
+                    var allOptions = $('#accountHolderDeptHead').data('all-options');
+                var filteredOptions = allOptions.filter(function () {
+                    return $(this).data('account-head-department') == selectedDept;
+                });
+
+                $('#accountHolderDeptHead').empty().append(filteredOptions).trigger('change.select2');
+
+                var accountHolderIdDept = $('#accountHolderDeptHead').find(':selected').data('account-head-department-id');
+
+                $('#accountHolderDeptHeadEmail').val(accountHolderIdDept).trigger('change');
+            //end
+        //***************************************************************************************** */
+
+// -----------------------------------------------------------------------------------------------------------
+
+        //***************************************************************************************** */
+        //the following code auto change the departments head email
+        $('#accountHolderDeptHeadEmail option').each(function () {
+            var accountHolderIdhead = $('#accountHolderDeptHead').find(':selected').data('account-head-department-id');
+            console.log("accountHolderIdhead",accountHolderIdhead)
+            if ($(this).data('account-holder-head-email-id') == accountHolderIdhead) {
+                $(this).prop('selected', true);
+                
+                $('#accountHolderDeptHeadEmail').trigger('change.select2'); // Trigger Select2 update if needed
+                return false; // Exit loop once found
+            }
+        });
+        //end
+        //***************************************************************************************** */
+        // -----------------------------------------------------------------------------------------------------------
 
 
  });
-
 
 
 $('#accountHolder').on('change', function () {
@@ -101,21 +148,31 @@ $('#accountHolder').on('change', function () {
 
     $('#accountHolderDeptHead').empty().append(filteredOptions).trigger('change.select2');
 
-    var accountHolderIdDept = $('#accountHolderDeptHead').find(':selected').data('account-head-department-id');
-
-    $('#accountHolderDeptHeadEmail').val(accountHolderIdDept).trigger('change');
-
-    
+        $('#accountHolderDeptHeadEmail option').each(function () {
+            var accountHolderIdhead = $('#accountHolderDeptHead').find(':selected').data('account-head-department-id');
+            console.log("accountHolderIdhead",accountHolderIdhead)
+            if ($(this).data('account-holder-head-email-id') == accountHolderIdhead) {
+                $(this).prop('selected', true);
+                
+                $('#accountHolderDeptHeadEmail').trigger('change.select2'); // Trigger Select2 update if needed
+                return false; // Exit loop once found
+            }
+        });
 
 
 });
 
 
 $('#accountHolderDeptHead').on('change', function () {
-var accountHolderIdDept = $(this).val()
-
-    $('#accountHolderDeptHeadEmail').val(accountHolderIdDept).trigger('change');
-
+    var accountHolderId = $(this).find(':selected').data('account-head-department-id');
+$('#accountHolderDeptHeadEmail option').each(function () {
+    if ($(this).data('account-holder-head-email-id') == accountHolderId) {
+        $(this).prop('selected', true);
+        
+        $('#accountHolderDeptHeadEmail').trigger('change.select2'); // Trigger Select2 update if needed
+        return false; // Exit loop once found
+    }
+});
 });
 
 // $('#accountHolder').on('change', function () {
