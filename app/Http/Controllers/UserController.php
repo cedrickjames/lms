@@ -7,6 +7,15 @@ use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SampleMail;
+
+use Illuminate\Support\Facades\Auth;
+
+
+
+
+
 
 class UserController extends Controller
 {
@@ -31,8 +40,60 @@ public function showFileALoa()
     return view('fileALoa', compact('typesOfLoa', 'supplier','user','email','deptHead','deptHeadEmail'));
 }
 
+public function showListOfLoa(){
+    $listOfLoa = DB::table('list_of_loa')->get();
+    return view('listOfLOA', compact('listOfLoa'));
+}
+
 public function submitLoa(Request $request)
 {
+
+    $type = $request->input('typeOfLOA');
+
+    $requirements = DB::table('type_of_loa')
+        ->where('legend', $type)
+        ->first();
+
+        $requiredDocs = [];
+
+          $documentFields = [
+    'requestLetter' => 'Request Letter',
+    'forecast' => 'Forecast',
+    'corMayorsPermitSubconInfoSheet' => "COR / Mayor's Permit / Subcontractor Information Sheet ",
+    'eCertificate' => 'E-Certificate',
+    'photo' => 'Photo',
+    'orderForm' => 'Order Form',
+    'laborCost' => 'Labor Cost',
+    'suretyBond' => 'Surety Bond',
+    'ledgerLiquidation' => "Ledger / Liquidation (PEZA/BOC)",
+    'certification' => 'Certification',
+    'bocSuretyBondApplication' => 'BOC Surety Bond Application',
+];
+
+        
+foreach ($documentFields as $field => $label) {
+     if (!empty($requirements->$field)) {
+    $requiredDocs[] = $label;
+     }
+}
+
+
+     $request->validate([
+    'loa' => 'required',
+    'typeOfLOA' => 'required',
+    'supplier' => 'required',
+    'accountHolder' => 'required',
+    'accountHolderEmail' => 'required|email',
+    'accountHolderDeptHead' => 'required',
+    'accountHolderDeptHeadEmail' => 'required|email',
+    'expiry' => 'required|date',
+    'deadline' => 'required|date',
+     ]);
+
+    $numberOfRequirement = count($requiredDocs);
+
+
+
     DB::table('list_of_loa')->insert([
         'loa' => $request->input('loa'),
         'type' => $request->input('typeOfLOA'),
@@ -45,9 +106,36 @@ public function submitLoa(Request $request)
         'deadlineOfCompletion' => $request->input('deadline'),
         'created_at' => now(),
         'updated_at' => now(),
+        'numberOfRequirement' => $numberOfRequirement,
     ]);
 
-    return redirect()->back()->with('success', 'LOA submitted successfully!');
+    
+// Prepare email details
+     $details = [
+         'subject' => 'New LOA Submitted',
+        'title' => 'Letter of Agreement Submission',
+         'body' => 'A new LOA has been submitted by ' . $request->input('accountHolder') . ' for supplier ' . $request->input('supplier') . '.',
+         'deadline' => $request->input('deadline'),
+         'link'=>'http://localhost:8000/fileALoa',
+         'type'=> $request->input('typeOfLOA'),
+         'accountHolder'=>$request->input('accountHolder'),
+         'requiredDocs'=>$requiredDocs,
+     ];
+
+        
+
+         $userEmail = Auth::user()->email;
+
+
+        Mail::to($request->input('accountHolderEmail'))
+        ->cc([$request->input('accountHolderDeptHeadEmail'), $userEmail])
+        ->send(new SampleMail($details));
+
+
+    return redirect()->back()->with('success', 'LOA submitted and email sent successfully!');
+
+
+
 }
 
 

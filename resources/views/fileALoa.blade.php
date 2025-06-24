@@ -31,7 +31,7 @@
       </div>
       <div class="flex items-center">
           <div class="flex items-center ms-3 gap-8">
-            <div class="text-white text-xl font-semibold sm:text-2xl">Cedrick James Orozo</div>
+            <div class="text-white text-xl font-semibold sm:text-2xl">{{ Auth::user()->name }}</div>
             <div>
               <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                 <span class="sr-only">Open user menu</span>
@@ -41,10 +41,10 @@
             <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
               <div class="px-4 py-3" role="none">
                 <p class="text-sm text-gray-900 dark:text-white" role="none">
-                  Cedrick James Orozo
+                  {{ Auth::user()->name }}
                 </p>
                 <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                  mis.dev@glory.com.ph
+                 {{ Auth::user()->email }}
                 </p>
               </div>
               <ul class="py-1" role="none">
@@ -103,6 +103,32 @@
         </button>
     </div>
 @endif
+
+@if ($errors->any())
+    <div id="toast-error" class="flex items-center w-full p-4 mb-4 text-red-500 bg-white rounded-lg shadow-sm dark:text-red-400 dark:bg-gray-800" role="alert">
+        <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+            <!-- Error Icon -->
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0Zm1 15H9v-2h2Zm0-4H9V5h2Z"/>
+            </svg>
+            <span class="sr-only">Error icon</span>
+        </div>
+        <div class="ms-3 text-sm font-normal">
+            <ul class="list-disc pl-4">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-red-400 hover:text-red-900 rounded-lg focus:ring-2 focus:ring-red-300 p-1.5 hover:bg-red-100 inline-flex items-center justify-center h-8 w-8 dark:text-red-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-error" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+            </svg>
+        </button>
+    </div>
+@endif
+
 
         <div class="p-2 font-semibold  rounded-md  bg-white overflow-auto text-2xl h-full">File a LOA
             <hr class="mt-2">

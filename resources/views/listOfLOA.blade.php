@@ -96,12 +96,28 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="">
-            <td>1</td>
-            <td>LOA 111-123</td>
-            <td>June 24, 2025</td>
+      @foreach($listOfLoa as $listOfLoa)
+                    
+            <tr class="">
+           
+          <td>{{ $loop->iteration }}</td>
+
+            <td>{{ $listOfLoa->loa }}</td>
+            <td>{{ $listOfLoa->deadlineOfCompletion }}</td>
             <td>  <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-            <div class="bg-gradient-to-r from-[#a1caa2] via-[#88ac89] to-[#779678]  font-medium text-white text-center p-0.5 leading-none rounded-full" style="width: 45%"> 45%</div>
+              
+          @php
+          $percentage = $listOfLoa->numberOfRequirement > 0
+          ? ($listOfLoa->numberOfSubmittedRequirement / $listOfLoa->numberOfRequirement) * 100
+          : 0;
+          @endphp
+
+            
+<div class="bg-gradient-to-r from-[#a1caa2] via-[#88ac89] to-[#779678] font-medium text-white text-center p-0.5 leading-none rounded-full"
+ style="width: {{ number_format($percentage, 2) }}%">
+ {{ number_format($percentage, 2) }}%
+</div>
+
             </div>
             </td>
             <td>
@@ -111,33 +127,9 @@
                   </button>
             </td>
         </tr>
-         <tr>
-            <td>2</td>
-            <td>LOA 111-122</td>
-            <td>June 24, 2025</td>
-            <td>  <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-            <div class="bg-gradient-to-r from-[#a1caa2] via-[#88ac89] to-[#779678]  font-medium text-white text-center p-0.5 leading-none rounded-full" style="width: 55%"> 55%</div>
-            </div>
-            </td>
-            <td>
-                 <button type="button" class="text-white bg-gradient-to-r from-[#a1caa2] via-[#88ac89] to-[#779678] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-2">View</button>
 
-                 </td>
-        </tr>
-                <tr>
-            <td>3</td>
-            <td>LOA 111-123</td>
-            <td>June 24, 2025</td>
-            <td>  <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-            <div class="bg-gradient-to-r from-[#a1caa2] via-[#88ac89] to-[#779678]  font-medium text-white text-center p-0.5 leading-none rounded-full" style="width: 45%"> 45%</div>
-            </div>
-            </td>
-            <td>
-                
-                 <button type="button" class="text-white bg-gradient-to-r from-[#a1caa2] via-[#88ac89] to-[#779678] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-2">View</button>
-               
-            </td>
-        </tr>
+       @endforeach
+       
 
     </tbody>
 </table>

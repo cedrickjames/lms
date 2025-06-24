@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
+use App\Http\Controllers\MailSettingController;
+use App\Mail\SampleMail;
+use App\Models\MailSetting;
+use Illuminate\Support\Facades\Config;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +17,43 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+
+;
+
+
+Route::get('/send-sample-email', function () {
+    $settings = MailSetting::first();
+
+    if ($settings) {
+        Config::set('mail.mailers.smtp.host', $settings->host);
+        Config::set('mail.mailers.smtp.port', $settings->port);
+        Config::set('mail.mailers.smtp.username', $settings->username);
+        Config::set('mail.mailers.smtp.password', $settings->password);
+        Config::set('mail.mailers.smtp.encryption', $settings->encryption);
+        Config::set('mail.from.address', $settings->from_address);
+        Config::set('mail.from.name', $settings->from_name);
+    }
+
+    $details = [
+        'subject' => 'Test Email from Laravel',
+        'title' => 'Hello from Laravel!',
+        'body' => 'This is a test email using SMTP credentials from the database.'
+    ];
+
+    Mail::to('mis.dev@glory.com.ph')->send(new SampleMail($details));
+
+    return 'Sample email sent!';
+});
+
+
+
+
+Route::get('/admin/mail-settings', [MailSettingController::class, 'edit'])->name('mail.settings.edit');
+Route::post('/admin/mail-settings', [MailSettingController::class, 'update'])->name('mail.settings.update');
+
+
 
 Route::get('/', function () {
     return view('login');
@@ -28,7 +69,7 @@ Route::post('/submit-loa', [UserController::class, 'submitLoa'])->name('submit.l
 Route::get('/fileALoa', [UserController::class, 'showFileALoa'], function () {
     return view('fileALoa');
 });
-Route::get('/listOfLOA', function () {
+Route::get('/listOfLOA',[UserController::class, 'showListOfLoa'], function () {
     return view('listOfLOA');
 });
 Route::get('/loaDetails', function () {
