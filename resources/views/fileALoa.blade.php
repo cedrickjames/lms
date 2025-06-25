@@ -167,10 +167,14 @@
                                 <select id="accountHolder" name="accountHolder" class="select2 js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option disabled selected>Select Type</option>
                             @foreach($user as $user)
-                                <option data-account-holder-department="{{ $user->department }}" data-account-holder-id="{{ $user->id }}" value="{{ $user->name }}"> {{ $user->name }}</option>
+                                <option data-account-holder-department="{{ $user->department }}" data-account-holder-username="{{ $user->userName }}" data-account-holder-id="{{ $user->id }}" value="{{ $user->name }}"> {{ $user->name }}</option>
                                 @endforeach
 
                                 </select>
+                    </div>
+                    <div class="relative z-0 w-full  group hidden">
+                        <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                        <input type="text" id="username" name="username" class=" border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                     </div>
                        <div class="relative z-0 w-full  group">
         <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>

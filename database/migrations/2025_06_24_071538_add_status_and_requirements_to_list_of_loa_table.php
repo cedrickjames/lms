@@ -17,17 +17,17 @@ return new class extends Migration
             $table->string('status')->default('Pending');
             $table->integer('numberOfRequirement')->default(0);
             $table->integer('numberOfSubmittedRequirement')->default(0);
-            $table->boolean('requestLetter')->default(false);
-            $table->boolean('forecast')->default(false);
-            $table->boolean('corMayorsPermitSubconInfoSheet')->default(false);
-            $table->boolean('eCertificate')->default(false);
-            $table->boolean('photo')->default(false);
-            $table->boolean('orderForm')->default(false);
-            $table->boolean('laborCost')->default(false);
-            $table->boolean('suretyBond')->default(false);
-            $table->boolean('ledgerLiquidation')->default(false);
-            $table->boolean('certification')->default(false);
-            $table->boolean('bocSuretyBondApplication')->default(false);
+            $table->string('requestLetter')->nullable();
+            $table->string('forecast')->nullable();
+            $table->string('corMayorsPermitSubconInfoSheet')->nullable();
+            $table->string('eCertificate')->nullable();
+            $table->string('photo')->nullable();
+            $table->string('orderForm')->nullable();
+            $table->string('laborCost')->nullable();
+            $table->string('suretyBond')->nullable();
+            $table->string('ledgerLiquidation')->nullable();
+            $table->string('certification')->nullable();
+            $table->string('bocSuretyBondApplication')->nullable();
 
         });
     }

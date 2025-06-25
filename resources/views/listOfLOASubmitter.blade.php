@@ -76,7 +76,7 @@
   </div>
 </nav>
 
-@include('sidebar')
+@include('sidebarSubmitter')
 
 
 <div class=" sm:ml-64  h-full ">
@@ -97,19 +97,19 @@
         </tr>
     </thead>
     <tbody>
-      @foreach($listOfLoa as $listOfLoa)
+      @foreach($listOfLOASubmitter as $listOfLOASubmitter)
                     
             <tr class="">
            
             <td>{{ $loop->iteration }}</td>
-            <td>{{ $listOfLoa->loa }}</td>
-            <td>{{ $listOfLoa->accountHolder }}</td>
-            <td>{{ $listOfLoa->deadlineOfCompletion }}</td>
+            <td>{{ $listOfLOASubmitter->loa }}</td>
+            <td>{{ $listOfLOASubmitter->accountHolder }}</td>
+            <td>{{ $listOfLOASubmitter->deadlineOfCompletion }}</td>
             <td>  <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
               
           @php
-          $percentage = $listOfLoa->numberOfRequirement > 0
-          ? ($listOfLoa->numberOfSubmittedRequirement / $listOfLoa->numberOfRequirement) * 100
+          $percentage = $listOfLOASubmitter->numberOfRequirement > 0
+          ? ($listOfLOASubmitter->numberOfSubmittedRequirement / $listOfLOASubmitter->numberOfRequirement) * 100
           : 0;
           @endphp
 
@@ -123,9 +123,13 @@
             </td>
             <td>
                
-                 <button type="button" class="text-white bg-gradient-to-r from-[#a1caa2] via-[#88ac89] to-[#779678] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-2">
-                    <a href="/loaDetails">View</a>
-                  </button>
+                    <a href="{{ route('loa.details', ['id' => $listOfLOASubmitter->id]) }}">
+    <button type="button" class="text-white bg-gradient-to-r from-[#a1caa2] via-[#88ac89] to-[#779678] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-2">
+        View
+    </button>
+</a>
+
+                  
             </td>
         </tr>
 

@@ -40,10 +40,16 @@ public function showFileALoa()
     return view('fileALoa', compact('typesOfLoa', 'supplier','user','email','deptHead','deptHeadEmail'));
 }
 
+public function showListOfLoaAccountHolder(){
+    $userName = Auth::user()->userName;
+    $listOfLOASubmitter =  DB::table('list_of_loa')->where('accountHolderUserName', $userName)->get();
+    return view('listOfLOASubmitter', compact('listOfLOASubmitter'));
+}
 public function showListOfLoa(){
     $listOfLoa = DB::table('list_of_loa')->get();
     return view('listOfLOA', compact('listOfLoa'));
 }
+
 
 public function submitLoa(Request $request)
 {
@@ -55,6 +61,8 @@ public function submitLoa(Request $request)
         ->first();
 
         $requiredDocs = [];
+        $requiredDocsField = [];
+
 
           $documentFields = [
     'requestLetter' => 'Request Letter',
@@ -74,6 +82,8 @@ public function submitLoa(Request $request)
 foreach ($documentFields as $field => $label) {
      if (!empty($requirements->$field)) {
     $requiredDocs[] = $label;
+    $requiredDocsField[] = $field;
+
      }
 }
 
@@ -94,20 +104,30 @@ foreach ($documentFields as $field => $label) {
 
 
 
-    DB::table('list_of_loa')->insert([
-        'loa' => $request->input('loa'),
-        'type' => $request->input('typeOfLOA'),
-        'supplier' => $request->input('supplier'),
-        'accountHolder' => $request->input('accountHolder'),
-        'accountHolderEmail' => $request->input('accountHolderEmail'),
-        'accountHolderDeptHead' => $request->input('accountHolderDeptHead'),
-        'accountHolderDeptHeadEmail' => $request->input('accountHolderDeptHeadEmail'),
-        'contractExpirationDate' => $request->input('expiry'),
-        'deadlineOfCompletion' => $request->input('deadline'),
-        'created_at' => now(),
-        'updated_at' => now(),
-        'numberOfRequirement' => $numberOfRequirement,
-    ]);
+$insertData = [
+    'loa' => $request->input('loa'),
+    'type' => $request->input('typeOfLOA'),
+    'supplier' => $request->input('supplier'),
+    'accountHolder' => $request->input('accountHolder'),
+    'accountHolderEmail' => $request->input('accountHolderEmail'),
+    'accountHolderDeptHead' => $request->input('accountHolderDeptHead'),
+    'accountHolderDeptHeadEmail' => $request->input('accountHolderDeptHeadEmail'),
+    'contractExpirationDate' => $request->input('expiry'),
+    'deadlineOfCompletion' => $request->input('deadline'),
+    'created_at' => now(),
+    'updated_at' => now(),
+    'numberOfRequirement' => $numberOfRequirement,
+    'accountHolderUserName' => $request->input('username'),
+];
+
+// Add "Pending" for each required document field
+foreach ($requiredDocsField as $field) {
+    $insertData[$field] = 'Pending';
+}
+
+// Insert into the database
+DB::table('list_of_loa')->insert($insertData);
+
 
     
 // Prepare email details

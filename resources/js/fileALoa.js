@@ -96,6 +96,13 @@ $('#supplier').on('change', function () {
                 $('#accountHolderDeptHeadEmail').val(accountHolderIdDept).trigger('change');
             //end
         //***************************************************************************************** */
+// -----------------------------------------------------------------------------------------------------------
+
+        //***************************************************************************************** */
+        // The following code auto add username in a hidden input box
+        var username = $('#accountHolder').find(':selected').data('account-holder-username');
+                $('#username').val(username);
+        //***************************************************************************************** */
 
 // -----------------------------------------------------------------------------------------------------------
 
@@ -121,8 +128,12 @@ $('#supplier').on('change', function () {
 
 $('#accountHolder').on('change', function () {
 
+
+
         var accountHolderEmail = $('#accountHolder').find(':selected').data('account-holder-id');
-        console.log("ceaeas0", accountHolderEmail)
+        
+    var username = $('#accountHolder').find(':selected').data('account-holder-username');
+    $('#username').val(username);
 
         $('#accountHolderEmail option').each(function () {
             if ($(this).data('account-holder-email-id') == accountHolderEmail) {

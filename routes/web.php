@@ -7,6 +7,9 @@ use App\Http\Controllers\MailSettingController;
 use App\Mail\SampleMail;
 use App\Models\MailSetting;
 use Illuminate\Support\Facades\Config;
+
+use App\Http\Controllers\LoaController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -72,9 +75,12 @@ Route::get('/fileALoa', [UserController::class, 'showFileALoa'], function () {
 Route::get('/listOfLOA',[UserController::class, 'showListOfLoa'], function () {
     return view('listOfLOA');
 });
-Route::get('/loaDetails', function () {
-    return view('loaDetails');
+Route::get('/listOfLOASubmitter',[UserController::class, 'showListOfLoaAccountHolder'], function () {
+    return view('listOfLOASubmitter11');
 });
+
+Route::get('/loaDetails/{id}/{requirement?}', [LoaController::class, 'show'])->name('loa.details');
+
 Route::get('/approachingTheDeadline', function () {
     return view('approachingTheDeadline');
 });
