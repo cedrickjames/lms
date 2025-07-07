@@ -11,6 +11,14 @@ import 'datatables.net-dt/css/jquery.dataTables.css'
 
 
 $(document).ready(function() {
+
+        
+setTimeout(() => {
+    const toast = document.getElementById('toast-success');
+     if (toast) toast.style.display = 'none';
+     }, 5000); // 5 seconds
+
+     
         let table = new DataTable('#myTable', {
     responsive: true
 });

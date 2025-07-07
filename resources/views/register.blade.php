@@ -61,7 +61,7 @@ I hope you know, it's better to try
       <div class=" pt-20 px-28 2xl:pt-28  w-full md:w-8/12 lg:w-6/12 mb-12 md:mb-0 ">
 
 
-        <form action="/register" method="post" class="p-20 rounded-2xl bg-white border-4 border-[#2d3b2c] bg-cover bg-no-repeat bg-[url('../../public/images/LoginBackground.png')] bg-blend-multiply">
+        <form action="/register" enctype="multipart/form-data" method="post" class="p-20 rounded-2xl bg-white border-4 border-[#2d3b2c] bg-cover bg-no-repeat bg-[url('../../public/images/LoginBackground.png')] bg-blend-multiply">
             @csrf
           <h1 class="text-[#3b4f3a] text-2xl font-serif text-center mb-4 ">LMS Register</h1>
           <!-- <h1 class="text-gray-400 text-xl font-bold text-center mb-10">Welcome to Helpdesk System</h1> -->
@@ -113,7 +113,7 @@ I hope you know, it's better to try
 
             </div>
             <select  id="department" name="department" value="{{ old('department') }}"  autofocus  autocomplete="off" class="pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select Department">
-              <option selected disabled value="Please Select">Please Select</option>
+              <option selected disabled value="Please Select">Select Department</option>
     @foreach($departments as $department)
         <option value="{{ $department->department }}" {{ old('department') == $department->department ? 'selected' : '' }}>{{ $department->department }}</option>
     @endforeach
@@ -131,7 +131,7 @@ I hope you know, it's better to try
 
             </div>
             <select  id="users_type" name="users_type"  value="{{ old('userType') }}" autofocus  autocomplete="off" class="pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select User Type">
-              <option selected disabled  value="Please Select">Please Select</option>
+              <option selected disabled  value="Please Select">Select User Type</option>
               <option  value="admin">Administrator</option>
               <option  value="submitter">Account Holder</option>
               <option  value="head">Department Head</option>
@@ -154,9 +154,13 @@ I hope you know, it's better to try
   </div>
             <!-- <input type="password" name="password" class=" w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Password"> -->
           </div>
+        <div class="mb-4">
+                  <div class="relative">
+               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload Profile Picture</label>
+                 <input name="profilePicture" placeholder="Choose Profile Picture" class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="file_input" type="file">
+              </div>
 
-
-
+      </div>
           <!-- Submit button -->
           <button class=" rounded-full text-white bg-gradient-to-br from-[#739072] to-[#3a4d39] hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-full" data-mdb-ripple="true" data-mdb-ripple-color="light">
             Proceed

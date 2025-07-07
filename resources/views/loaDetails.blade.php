@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
      @vite('resources/css/app.css')
-     @vite('resources/js/listOfLOA.js')
+     @vite('resources/js/loaDetails.js')
 
     <title>Overall</title>
 </head>
@@ -39,12 +39,12 @@
               </button>
             </div>
             <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
-              <div class="px-4 py-3" role="none">
+               <div class="px-4 py-3" role="none">
                 <p class="text-sm text-gray-900 dark:text-white" role="none">
-                  Cedrick James Orozo
+                  {{ Auth::user()->name }}
                 </p>
                 <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                  mis.dev@glory.com.ph
+                 {{ Auth::user()->email }}
                 </p>
               </div>
               <ul class="py-1" role="none">
@@ -60,14 +60,14 @@
                 <form action="/logout" method="POST">
                           @csrf
                 <li>
-                    
+          
                   
 
                   <button  class="w-full flex block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</button>
-
+                  </li>
+                </form>
                   
-                </li>
-                  
+             
               </ul>
             </div>
           </div>
@@ -76,8 +76,11 @@
   </div>
 </nav>
 
+@if (Auth::user()->users_type != "admin" )
 @include('sidebarSubmitter')
-
+@else
+@include('sidebar')
+@endif
 
 <div class=" sm:ml-64  h-full ">
    <div class="p-4 mt-14 bg-[#f4f4f4]  h-full">
@@ -96,6 +99,8 @@
                   
                   <p class="text-xl font-thin {{ $statusColor }}">{{ $status }}</p>
 
+                <input type="hidden" id="loa-status" value="{{ $status }}">
+
                </div>
 
                </div>
@@ -105,20 +110,125 @@
 
               
                <div class="p-2 row-span-6  font-semibold  border-solid border-2 border-[#3a4d39] rounded-md border border bg-white overflow-auto">
+                @if(session('success'))
+    <div id="toast-success" class="flex items-center w-full p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800" role="alert">
+        <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+            <!-- Check Icon -->
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+            </svg>
+            <span class="sr-only">Check icon</span>
+        </div>
+        <div class="ms-3 text-sm font-normal">{{ session('success') }}</div>
+        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+            </svg>
+        </button>
+    </div>
+@endif
+
+@if ($errors->any())
+    <div id="toast-error" class="flex items-center w-full p-4 mb-4 text-red-500 bg-white rounded-lg shadow-sm dark:text-red-400 dark:bg-gray-800" role="alert">
+        <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+            <!-- Error Icon -->
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0Zm1 15H9v-2h2Zm0-4H9V5h2Z"/>
+            </svg>
+            <span class="sr-only">Error icon</span>
+        </div>
+        <div class="ms-3 text-sm font-normal">
+            <ul class="list-disc pl-4">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-red-400 hover:text-red-900 rounded-lg focus:ring-2 focus:ring-red-300 p-1.5 hover:bg-red-100 inline-flex items-center justify-center h-8 w-8 dark:text-red-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-error" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+            </svg>
+        </button>
+    </div>
+@endif
                    <p class="">Requirement Details</p>
                    <div class="grid grid-cols-2 p-2 font-semibold ">
-                    <p class="font-thin">Name of Requirement: </p>
-                    <p>{{$requirementQuery->loaName}}</p>
-                    <p class="font-thin">Person In-Charge: </p>
-                    <p>{{$requirementQuery->accountHolderName}}</p>
-                     <p class="font-thin">Department: </p>
-                    <p>Purchasing</p>
-                    <p class="font-thin">Date Submitted: </p>
-                    <p>{{$requirementQuery->dateSubmitted}}</p>
+                    <p class="font-thin">Name of LOA: </p>
+                    <p>{{ $requirementQuery->loaName ?? $loa->loa}}</p>
+                    <p class="font-thin">Type of Requirement: </p>
+                    <p>{{ $requirementQuery->requirementName ?? $requirementName }}</p>
+                    <p class="font-thin">Person In-Charge:</p>
+                    <p>{{ $requirementQuery->accountHolderName ?? Auth::user()->name }}</p>
+
+
+                    <p class="font-thin">Date Submitted:</p>
+                    <p>{{ $requirementQuery->dateSubmitted ?? 'N/A' }}</p>
+
                      <p class="font-thin">Date Confirmed: </p>
-                    <p></p>
+                    <p>{{ $requirementQuery->dateConfirmed ?? 'N/A' }}</p>
                     <div class="my-4 col-span-2"></div>
-                    <button type="button" class="col-span-2 text-white bg-gradient-to-b from-[#3a4d39] via-[#4f6f52] to-[#739072] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2">Confirm</button>
+                    @if ($requirementQuery)
+
+                     @if (Auth::user()->users_type != "admin" )
+                    <button type="button" disabled class=" cursor-not-allowed col-span-2 text-white bg-gradient-to-b from-gray-500 via-gray-400 to-gray-300 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2">Submitted</button>
+                    
+                     @elseif ($requirementQuery->status !="For Approval")
+                    <button type="button" disabled class=" cursor-not-allowed col-span-2 text-white bg-gradient-to-b from-gray-500 via-gray-400 to-gray-300 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2">Confirmed</button>
+                
+
+                   @else
+          <form action="{{ route('confirm.requirement') }}" method="POST" class="col-span-2">
+                    @csrf
+                    <input type="text" class="hidden" name="loaId" value="{{ $loa->id}}">
+                    <input type="text" class="hidden" name="loaName" value="{{ $loa->loa }}">
+                    <input type="text" class="hidden" name="requirement" value="{{ $requirement }}">
+                    <input type="text" class="hidden" name="requirementName" value="{{ $requirementName }}" >
+                    <input type="text" class="hidden" name="accountHolderUserName" value="{{  $loa->accountHolderUserName }}">
+                    <input type="text" class="hidden" name="accountHolderName" value="{{ $loa->accountHolder}}">
+                    <input type="text" class="hidden" name="accountHolderEmail" value="{{ $loa->accountHolderEmail}}">
+
+                    <input type="text" class="hidden" name="deptHead" value="{{ $loa->accountHolderDeptHead}}">
+                    <input type="text" class="hidden" name="deptHeadEmail" value="{{ $loa->accountHolderDeptHeadEmail}}">
+
+                
+                   <button type="submit" class=" w-full col-span-2 text-white bg-gradient-to-b from-[#3a4d39] via-[#4f6f52] to-[#739072] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2">Confirm</button>
+
+
+
+                   </form>
+
+                   @endif
+
+
+                   @else
+                    
+                   <form action="{{ route('submit.requirement') }}" method="POST" class="col-span-2">
+                    @csrf
+                    <input type="text" class="hidden" name="loaId" value="{{ $loa->id}}">
+                    <input type="text" class="hidden" name="loaName" value="{{ $loa->loa }}">
+                    <input type="text" class="hidden" name="requirement" value="{{ $requirement }}">
+                    <input type="text" class="hidden" name="requirementName" value="{{ $requirementName }}" >
+                    <input type="text" class="hidden" name="accountHolderUserName" value="{{  Auth::user()->userName }}">
+                    <input type="text" class="hidden" name="accountHolderName" value="{{ Auth::user()->name}}">
+                    <input type="text" class="hidden" name="deptHead" value="{{ $loa->accountHolderDeptHead}}">
+                    <input type="text" class="hidden" name="deptHeadEmail" value="{{ $loa->accountHolderDeptHeadEmail}}">
+
+                    @if (Auth::user()->users_type != "admin" )
+                   <button type="submit" class=" w-full col-span-2 text-white bg-gradient-to-b from-[#3a4d39] via-[#4f6f52] to-[#739072] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2">Submit</button>
+
+                @else
+
+                  @endif
+
+
+
+                   </form>
+
+                   @endif
+
+
 
 
 

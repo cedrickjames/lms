@@ -1,14 +1,25 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-
-use App\Http\Controllers\MailSettingController;
 use App\Mail\SampleMail;
 use App\Models\MailSetting;
+
+use App\Mail\RequirementMail;
+
+use App\Http\Controllers\Settings;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 
 use App\Http\Controllers\LoaController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\tablesController;
+use App\Http\Controllers\DashBoardController;
+use App\Http\Controllers\MailSettingController;
+use App\Http\Controllers\SubmitterDashboardController;
+use App\Http\Controllers\SendEmailNotificationController;
+use App\Http\Controllers\SendEmailNotificationControllerDaily;
+use App\Http\Controllers\SendEmailNotificationControllerWeekly;
+use App\Http\Controllers\SendEmailNotificationControllerMonthly;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +34,17 @@ use App\Http\Controllers\LoaController;
 
 
 
-;
+
+
+Route::get('/emailNotificationOverDue', [SendEmailNotificationController::class, 'showPage']);
+
+Route::get('/emailNotificationDaily', [SendEmailNotificationControllerDaily::class, 'showPage']);
+
+Route::get('/emailNotificationWeekly', [SendEmailNotificationControllerWeekly::class, 'showPage']);
+Route::get('/emailNotificationMonthly', [SendEmailNotificationControllerMonthly::class, 'showPage']);
+
+
+
 
 
 Route::get('/send-sample-email', function () {
@@ -63,11 +84,15 @@ Route::get('/', function () {
 });
 Route::post('/logout',[UserController::class, 'logout']);
 
-Route::get('/home', function () {
+Route::get('/home',[DashBoardController::class, 'showListOfLoa'], function () {
     return view('home');
 });
 
 Route::post('/submit-loa', [UserController::class, 'submitLoa'])->name('submit.loa');
+Route::post('/submit-requirement', [LoaController::class, 'submitRequirement'])->name('submit.requirement');
+Route::post('/confirm-requirement', [LoaController::class, 'confirmRequirement'])->name('confirm.requirement');
+
+
 
 Route::get('/fileALoa', [UserController::class, 'showFileALoa'], function () {
     return view('fileALoa');
@@ -79,17 +104,27 @@ Route::get('/listOfLOASubmitter',[UserController::class, 'showListOfLoaAccountHo
     return view('listOfLOASubmitter11');
 });
 
+
 Route::get('/loaDetails/{id}/{requirement?}', [LoaController::class, 'show'])->name('loa.details');
 
-Route::get('/approachingTheDeadline', function () {
+Route::get('/settings',[Settings::class,'settings'], function(){
+    return view('settings');
+});
+Route::get('/approachingTheDeadline',[tablesController::class, 'showListOfLoaApproaching'], function () {
     return view('approachingTheDeadline');
 });
-Route::get('/overdue', function () {
+
+Route::get('/approachingTheDeadlineSubmitter',[tablesController::class, 'showListOfLoaApproachingSubmitter'], function () {
+    return view('approachingTheDeadlineSubmitter');
+});
+Route::get('/overdue',[tablesController::class, 'showListOfLoaOverDue'], function () {
     return view('overdue');
 });
+Route::get('/overdueSubmitter',[tablesController::class, 'showListOfLoaOverDueSubmitter'], function () {
+    return view('overdueSubmitter');
+});
 
-
-Route::get('/submitter', function () {
+Route::get('/submitter',[SubmitterDashboardController::class,'showListOfLoa'], function () {
     return view('submitter');
 });
 Route::get('/register', [UserController::class, 'create'], function () {

@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SampleMail;
-
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -45,6 +45,7 @@ public function showListOfLoaAccountHolder(){
     $listOfLOASubmitter =  DB::table('list_of_loa')->where('accountHolderUserName', $userName)->get();
     return view('listOfLOASubmitter', compact('listOfLOASubmitter'));
 }
+
 public function showListOfLoa(){
     $listOfLoa = DB::table('list_of_loa')->get();
     return view('listOfLOA', compact('listOfLoa'));
@@ -114,10 +115,13 @@ $insertData = [
     'accountHolderDeptHeadEmail' => $request->input('accountHolderDeptHeadEmail'),
     'contractExpirationDate' => $request->input('expiry'),
     'deadlineOfCompletion' => $request->input('deadline'),
-    'created_at' => now(),
-    'updated_at' => now(),
+    'created_at' =>\Carbon\Carbon::now('Asia/Manila'),
+    'updated_at' => \Carbon\Carbon::now('Asia/Manila'),
     'numberOfRequirement' => $numberOfRequirement,
     'accountHolderUserName' => $request->input('username'),
+    'filedBy' => Auth::user()->name,
+    'filedById' => Auth::user()->userName
+
 ];
 
 // Add "Pending" for each required document field
@@ -132,9 +136,9 @@ DB::table('list_of_loa')->insert($insertData);
     
 // Prepare email details
      $details = [
-         'subject' => 'New LOA Submitted',
+         'subject' => 'New LOA Filed',
         'title' => 'Letter of Agreement Submission',
-         'body' => 'A new LOA has been submitted by ' . $request->input('accountHolder') . ' for supplier ' . $request->input('supplier') . '.',
+         'body' => 'A new LOA has been filed for ' . $request->input('accountHolder') . ' for supplier ' . $request->input('supplier') . '.',
          'deadline' => $request->input('deadline'),
          'link'=>'http://localhost:8000/fileALoa',
          'type'=> $request->input('typeOfLOA'),
@@ -202,13 +206,29 @@ public function register(Request $request){
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'department' => ['required'],
             'password' => ['required', 'min:5', 'max:200'],
-            'users_type' => ['required']
+            'users_type' => ['required'],
+            'profilePicture' => ['nullable', 'image','max:2048'] 
 
         ]);
+        
+            if ($request->hasFile('profilePicture')) {
+            $file = $request->file('profilePicture');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images'), $filename);
+            $incomingFields['profilePicture'] = 'images/' . $filename;
+        }
+
+
         $incomingFields['password'] = bcrypt($incomingFields['password']);
        $user =  User::create($incomingFields);
        auth()->login($user);
-           return redirect('/home');
+          
+        if ($user->users_type === 'admin') {
+            return redirect('/home');
+            } else {
+            return redirect('/submitter');
+            }
+
     }
 
 

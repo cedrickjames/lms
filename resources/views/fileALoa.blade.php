@@ -76,8 +76,11 @@
   </div>
 </nav>
 
+@if (Auth::user()->users_type != "admin" )
+@include('sidebarSubmitter')
+@else
 @include('sidebar')
-
+@endif
 
 
 <div class=" sm:ml-64  h-full ">
