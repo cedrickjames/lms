@@ -7,6 +7,12 @@
      padding-bottom: 0 !important;
 }
 
+.activeSettings{
+    background-color: #f4f4f4;
+        border-left-width: 4px;
+    border-color: #3b4f3a;
+}
+
 .activeNav{
      --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity, 1));

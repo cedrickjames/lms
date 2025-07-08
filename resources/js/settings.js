@@ -25,6 +25,9 @@ setTimeout(() => {
    $('#sidebarSettings').addClass('activeNav');
    $('#sidebarDashboard').removeClass('activeNav');
 
+   const activeNavId = $('#activeNavSettings').val();
+   $('#' + activeNavId).addClass('activeSettings');
+
 
 //    $('#sidebarDashboard').removeClass('activeNav');
 

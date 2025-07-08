@@ -25,6 +25,7 @@ I hope you know, it's better to try
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
      @vite('resources/css/app.css')
      @vite('resources/js/app.js')
+   <link rel="shortcut icon" href="{{ asset('images/BriefCaseLogoGreen.png') }}">
 
     <title>Registration</title>
   

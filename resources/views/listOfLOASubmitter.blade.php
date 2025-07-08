@@ -6,8 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
      @vite('resources/css/app.css')
      @vite('resources/js/loaDetails.js')
+   <link rel="shortcut icon" href="{{ asset('images/BriefCaseLogoGreen.png') }}">
 
-    <title>Overall</title>
+    <title>List of LOA</title>
 </head>
 <body class="overflow-x-hidden overflow-hidden bg-cover bg-no-repeat bg-[url('../images/LOAMonitoringAuthUIBackground.png')] bg-blend-multiply h-screen">
    @auth

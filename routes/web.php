@@ -106,10 +106,12 @@ Route::get('/listOfLOASubmitter',[UserController::class, 'showListOfLoaAccountHo
 
 
 Route::get('/loaDetails/{id}/{requirement?}', [LoaController::class, 'show'])->name('loa.details');
+Route::get('/settings/{settings}', [Settings::class, 'settings'])->name('lms.settings');
 
-Route::get('/settings',[Settings::class,'settings'], function(){
-    return view('settings');
-});
+
+// Route::get('/settings',[Settings::class,'settings'], function(){
+//     return view('settings');
+// });
 Route::get('/approachingTheDeadline',[tablesController::class, 'showListOfLoaApproaching'], function () {
     return view('approachingTheDeadline');
 });
@@ -130,7 +132,9 @@ Route::get('/submitter',[SubmitterDashboardController::class,'showListOfLoa'], f
 Route::get('/register', [UserController::class, 'create'], function () {
     return view('register');
 });
-
+Route::post('/submitAccountUpdate', [Settings::class, 'updateAccount'], function () {
+    return view('settings');
+});
 
 Route::post('/login',[UserController::class, 'login']);
 Route::post('/register',[UserController::class, 'register']);

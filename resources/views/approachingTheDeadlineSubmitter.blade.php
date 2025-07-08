@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
      @vite('resources/css/app.css')
      @vite('resources/js/approachingTheDeadline.js')
+   <link rel="shortcut icon" href="{{ asset('images/BriefCaseLogoGreen.png') }}">
 
     <title>Approaching the Deadline</title>
 </head>

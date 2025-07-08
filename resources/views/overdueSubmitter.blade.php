@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
      @vite('resources/css/app.css')
      @vite('resources/js/overdue.js')
+   <link rel="shortcut icon" href="{{ asset('images/BriefCaseLogoGreen.png') }}">
 
     <title>Overdue</title>
 </head>

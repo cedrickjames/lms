@@ -11,6 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
      @vite('resources/css/app.css')
      @vite('resources/js/app.js')
+   <link rel="shortcut icon" href="{{ asset('images/BriefCaseLogoGreen.png') }}">
 
     <title>Home</title>
   
