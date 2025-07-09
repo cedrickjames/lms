@@ -36,6 +36,7 @@
         <tr>
            <th>No.</th>
             <th>LOA Name</th>
+            <th>Supplier</th>
             <th>Person In-Charge</th>
             <th>Deadline</th>
             <th>Days Overdue</th>
@@ -52,6 +53,7 @@
            
             <td>{{ $loop->iteration }}</td>
             <td>{{ $overdueLoas->loa }}</td>
+            <td>{{ $overdueLoas->supplier }}</td>
             <td>{{ $overdueLoas->accountHolder }}</td>
             <td>{{ $overdueLoas->deadlineOfCompletion }}</td>
             

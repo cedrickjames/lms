@@ -35,6 +35,7 @@
         <tr>
             <th>No.</th>
             <th>LOA Name</th>
+            <th>Supplier</th>
             <th>Person-In-Charge</th>
             <th>Deadline</th>
             <th>Compliance Progress</th>
@@ -50,6 +51,7 @@
            
             <td>{{ $loop->iteration }}</td>
             <td>{{ $approaching->loa }}</td>
+            <td>{{ $approaching->supplier }}</td>
             <td>{{ $approaching->accountHolder }}</td>
             <td>{{ $approaching->deadlineOfCompletion }}</td>
 
@@ -113,6 +115,7 @@
         <tr>
             <th>No.</th>
             <th>LOA Name</th>
+            <th>Supplier</th>
             <th>Person In-Charge</th>
             <th>Deadline</th>
             <th>Days Overdue</th>
@@ -129,6 +132,7 @@
            
             <td>{{ $loop->iteration }}</td>
             <td>{{ $overdueLoas->loa }}</td>
+            <td>{{ $overdueLoas->supplier }}</td>
             <td>{{ $overdueLoas->accountHolder }}</td>
             <td>{{ $overdueLoas->deadlineOfCompletion }}</td>
             
@@ -215,9 +219,12 @@
                 <div class="grid content-center  text-base text-white">{{ \Carbon\Carbon::parse($recentApproved->updated_at)->format('g:i A') }}</div>
             </div>
             <div class="h-full w-[5%]  grid content-center justify-center">
-                <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-            <path fill-rule="evenodd" d="M4.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clip-rule="evenodd" />
-            </svg>
+                 <a href="{{ route('loa.details', ['id' => $recentApproved->loaId]) }}">
+                    <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                    </svg>
+                </a>
+                
 
             </div>
         </div>
@@ -241,9 +248,12 @@
                 <div class="grid content-center  text-base text-white">{{ \Carbon\Carbon::parse($recentFiled->created_at)->format('g:i A') }}</div>
             </div>
             <div class="h-full w-[5%]  grid content-center justify-center">
-                <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-            <path fill-rule="evenodd" d="M4.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clip-rule="evenodd" />
-            </svg>
+                    <a href="{{ route('loa.details', ['id' => $recentFiled->id]) }}">
+                    <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                    </svg>
+                </a>
+                
 
             </div>
         </div>
@@ -272,9 +282,14 @@
             </div>
                         </div>
                         <div class="h-full w-[5%]  grid content-center justify-center">
-                            <svg class="w-6 h-6 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                        <path fill-rule="evenodd" d="M4.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clip-rule="evenodd" />
-                        </svg>
+                            
+                             <a href="{{ route('loa.details', ['id' => $allSubmitted->loaId]) }}">
+                    <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                    </svg>
+                </a>
+
+                           
 
                         </div>
                     </div>
@@ -301,9 +316,12 @@
             </div>
                         </div>
                         <div class="h-full w-[5%]  grid content-center justify-center">
-                            <svg class="w-6 h-6 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                        <path fill-rule="evenodd" d="M4.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clip-rule="evenodd" />
-                        </svg>
+                             <a href="{{ route('loa.details', ['id' => $todayFiled->id]) }}">
+                    <svg class="w-6 h-6 text-gray-800 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                    </svg>
+                </a>
+                            
 
                         </div>
                     </div>
@@ -328,9 +346,16 @@
                 <div class="grid content-center  text-base ">{{ \Carbon\Carbon::parse($old->updated_at)->format('g:i A') }}</div>
             </div>
             <div class="h-full w-[5%]  grid content-center justify-center">
-                <svg class="w-6 h-6 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                <a href="{{ route('loa.details', ['id' => $old->loaId]) }}">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+</svg>
+
+                     {{-- <svg class="w-6 h-6 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
             <path fill-rule="evenodd" d="M4.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clip-rule="evenodd" />
-            </svg>
+            </svg> --}}
+                </a>
+               
 
             </div>
         </div>
@@ -358,10 +383,12 @@
             </div>
                         </div>
                         <div class="h-full w-[5%]  grid content-center justify-center">
-                            <svg class="w-6 h-6 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                        <path fill-rule="evenodd" d="M4.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clip-rule="evenodd" />
-                        </svg>
+                              <a href="{{ route('loa.details', ['id' => $oldFiled->id]) }}">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+</svg>
 
+                </a>
                         </div>
                     </div>
                     @endforeach

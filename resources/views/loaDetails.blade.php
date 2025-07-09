@@ -32,8 +32,8 @@
                   <p class="text-xl font-thin"> {{ $typeDetails->nameOfLOA ?? 'N/A' }}</p>
               </div>
                <div class="p-4  border-r border-[#3a4d39]">
-                <p class="text-xl font-thin">Deadline:</p>
-                  <p class="text-xl font-thin">{{ $loa->deadlineOfCompletion }}</p>
+                <p class="text-xl font-thin">Deadline: {{ $loa->deadlineOfCompletion }}</p>
+                  <p class="text-xl font-thin">Supplier: {{ $loa->supplier }}</p>
                </div>
                <div class="p-4">
                 <p class="text-xl font-thin">Status:</p>
@@ -148,6 +148,8 @@
                    <form action="{{ route('submit.requirement') }}" method="POST" class="col-span-2">
                     @csrf
                     <input type="text" class="hidden" name="loaId" value="{{ $loa->id}}">
+                    <input type="text" class="hidden" name="loaSupplier" value="{{ $loa->supplier}}">
+
                     <input type="text" class="hidden" name="loaName" value="{{ $loa->loa }}">
                     <input type="text" class="hidden" name="requirement" value="{{ $requirement }}">
                     <input type="text" class="hidden" name="requirementName" value="{{ $requirementName }}" >

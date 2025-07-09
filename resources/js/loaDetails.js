@@ -17,7 +17,12 @@ $(document).ready(function() {
      }, 5000); // 5 seconds
 
         let table = new DataTable('#myTable', {
-    responsive: true
+      responsive: true,
+        pageLength: 3000,
+    responsive: true,
+             scrollCollapse: false,
+             
+    scrollY: '50vh'
 });
    $('#sidebarListOfLoa').addClass('activeNav');
    $('#sidebarDashboard').removeClass('activeNav');

@@ -10,10 +10,88 @@ class Settings extends Controller
 {
     public function settings($settings){
         $departments = DB::table('department')->get();  // Fetch all departments
+ $users = DB::table('users')->get();  // Fetch all departments
 
-        return view('settings', compact('settings','departments'));
+
+
+        $supplier = DB::table('supplier')
+->join('users', 'supplier.accountHolder', '=', 'users.id')
+       ->select('supplier.*', 'users.name','users.userName','users.email')
+    ->get();
+
+        return view('settings', compact('settings','departments','supplier','users'));
 
     }
+
+
+    public function addSupplier(Request $request)
+{
+
+    $incomingFields = $request->validate([
+        'supplierNameAdd' => ['required', 'string'],
+        'accountHolderAdd' => ['required', 'integer']
+
+    ]);
+
+         $insertData = [
+    'created_at' => \Carbon\Carbon::now('Asia/Manila'),
+    'updated_at' => \Carbon\Carbon::now('Asia/Manila'),
+    'supplier' => $request->input('supplierNameAdd'),
+    'accountHolder' => $request->input('accountHolderAdd'),
+];
+
+DB::table('supplier')->insert($insertData);
+
+   return redirect()->back()->with('success', 'Supplier added successfully!');
+
+
+}
+
+public function updateSupplier(Request $request)
+{
+    $incomingFields = $request->validate([
+        'supplierName' => ['required', 'string'],
+        'accountHolder' => ['required', 'integer'],
+        'supplierId' => ['required', 'integer'],
+        'supplierNameOld' => ['required', 'string'],
+        'supplierAccountHolderOld' => ['required', 'string'],
+        'accountHolderName' => ['required', 'string'],
+        'accountHolderUserName' => ['required', 'string'],
+        'accountHolderEmail' => ['required', 'string'],
+
+
+    ]);
+    echo $incomingFields['accountHolder'];
+    
+
+    DB::table('supplier')
+        ->where('id', $incomingFields['supplierId'])
+        ->update([
+            'supplier' => $incomingFields['supplierName'],
+            'accountHolder' => $incomingFields['accountHolder']
+        ]);
+            DB::table('list_of_loa')
+        ->where('supplier', $incomingFields['supplierNameOld'])
+        ->update([
+            'supplier' => $incomingFields['supplierName'],
+            'accountHolder' => $incomingFields['accountHolderName'],
+            'accountHolderUserName' => $incomingFields['accountHolderUserName'],
+            'accountHolderEmail' => $incomingFields['accountHolderEmail']
+        ]);
+
+         DB::table('submitted_requirements')
+        ->where('supplier', $incomingFields['supplierNameOld'])
+        ->update([
+            'supplier' => $incomingFields['supplierName'],
+            'accountHolderName' => $incomingFields['accountHolderName'],
+            'accountHolderUserName' => $incomingFields['accountHolderUserName']
+        ]);
+
+
+        
+    return redirect()->back()->with('success', 'Supplier updated successfully!');
+}
+
 
     public function updateAccount(Request $request)
 {

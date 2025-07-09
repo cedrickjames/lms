@@ -33,6 +33,7 @@
         <tr>
             <th>No.</th>
             <th>LOA Name</th>
+            <th>Supplier</th>
             <th>Person-In-Charge</th>
             <th>Deadline</th>
             <th>Compliance Progress</th>
@@ -48,6 +49,7 @@
            
             <td>{{ $loop->iteration }}</td>
             <td>{{ $approaching->loa }}</td>
+            <td>{{ $approaching->supplier }}</td>
             <td>{{ $approaching->accountHolder }}</td>
             <td>{{ $approaching->deadlineOfCompletion }}</td>
 

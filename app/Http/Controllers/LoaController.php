@@ -141,6 +141,8 @@ if (!is_null($requirement) && array_key_exists($requirement, $documentFields)) {
     'requirementName' => 'required',
     'accountHolderUserName' => 'required',
     'accountHolderName' => 'required',
+    'loaSupplier' => 'required',
+
 
      ]);
 
@@ -150,6 +152,7 @@ $dateSubmitted = date('F j, Y'); // Outputs: June 26, 2025
 
      $insertData = [
     'loaId' => $request->input('loaId'),
+    'supplier' => $request->input('loaSupplier'),
     'loaName' => $request->input('loaName'),
     'requirement' => $request->input('requirement'),
     'requirementName' => $request->input('requirementName'),

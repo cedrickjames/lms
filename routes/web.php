@@ -135,6 +135,15 @@ Route::get('/register', [UserController::class, 'create'], function () {
 Route::post('/submitAccountUpdate', [Settings::class, 'updateAccount'], function () {
     return view('settings');
 });
+Route::post('/submitSupplierUpdate', [Settings::class, 'updateSupplier'], function () {
+    return view('settings');
+});
+Route::post('/submitSupplierAdd', [Settings::class, 'addSupplier'], function () {
+    return view('settings');
+});
+
+
+
 
 Route::post('/login',[UserController::class, 'login']);
 Route::post('/register',[UserController::class, 'register']);

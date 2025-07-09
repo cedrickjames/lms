@@ -28,6 +28,8 @@
         <tr>
             <th>No.</th>
             <th>LOA Name</th>
+            <th>Supplier</th>
+
             <th>Person In-charge</th>
             <th>Deadline</th>
             <th>Compliance Progress</th>
@@ -42,6 +44,7 @@
            
             <td>{{ $loop->iteration }}</td>
             <td>{{ $listOfLOASubmitter->loa }}</td>
+            <td>{{ $listOfLOASubmitter->supplier }}</td>
             <td>{{ $listOfLOASubmitter->accountHolder }}</td>
             <td>{{ $listOfLOASubmitter->deadlineOfCompletion }}</td>
             <td>  <div class="w-full bg-gray-200 rounded-full relative h-6 overflow-hidden">

@@ -58,11 +58,10 @@
             
 
                </div>
-               <div class="p-2 row-span-6 col-span-2 font-semibold   rounded-md border border bg-white overflow-auto">
+               <div class="p-2 row-span-6 col-span-2   rounded-md border border bg-white overflow-auto">
                    <div class="">
                     
-                    <form action="/submitAccountUpdate" enctype="multipart/form-data" class="w-full"  method="POST">
-    @csrf
+              
 @if(session('success'))
     <div id="toast-success" class="flex items-center w-full p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800" role="alert">
         <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
@@ -83,7 +82,9 @@
 @endif
 
 
-
+ @if($settings == "account")
+               <form action="/submitAccountUpdate" enctype="multipart/form-data" class="w-full"  method="POST">
+    @csrf
         <div class="p-2 font-semibold  rounded-md  bg-white overflow-auto text-2xl h-full">
                 @if($settings == "account")
                     Account Settings
@@ -100,7 +101,7 @@
             <hr class="mt-2">
     <div class="rounded-md bg-white text-[15px] text-gray-500 p-2 w-full ">
 
-         @if($settings == "account")
+        
                     <div class="grid md:grid-cols-2 md:gap-x-6 gap-y-3 h-full mb-4">
                     <div class="relative z-0 w-full  group">
                         <label for="loa" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Name</label>
@@ -147,7 +148,7 @@
                     <button type="submit" class="w-full text-white bg-gradient-to-b from-[#739072] via-[#4f6f52] to-[#3a4d39] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg  px-5 py-2.5 text-center my-2">
                     Update
                   </button>
-          
+                </form>
    
   </div>
 
@@ -171,9 +172,155 @@
 
             </div> 
 
-   </form>
     @elseif($settings == "suppliers")
-                    Suppliers Settings
+    <div class="px-2 py-8 text-sm ">
+        <button 
+        data-modal-target="addSupplierModal"
+            data-modal-toggle="addSupplierModal"
+              onclick="openAddModal()"
+            type="button" class="w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Add Supplier</button>
+                     <table id="myTableSupplier" class="display maintables">
+    <thead>
+        <tr>
+           <th>No.</th>
+            <th>Supplier</th>
+            <th>Account Holder</th>
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+@foreach($supplier as $supplier)
+                    
+            <tr class="">
+           
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $supplier->supplier }}</td>
+            <td>{{ $supplier->name }}</td>
+            <td> 
+
+                
+
+
+            <button 
+            type="button"
+            data-modal-target="editSupplierModal"
+            data-modal-toggle="editSupplierModal"
+            data-id="{{ $supplier->id }}"
+            data-supplier="{{ $supplier->supplier }}"
+              data-user-id ="{{ $supplier->accountHolder }}"
+              data-user-name ="{{ $supplier->name }}"
+              data-userName ="{{ $supplier->userName }}"
+              data-user-email ="{{ $supplier->email }}"
+              
+
+            onclick="openEditModal(this)"
+             class="text-white bg-gradient-to-r from-[#a1caa2] via-[#88ac89] to-[#779678] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-2">
+                Edit
+            </button>
+                
+            </td>
+
+
+
+            @endforeach
+    </tbody>
+      </table>
+
+    </div>
+
+      
+      <!-- Modal -->
+<div id="editSupplierModal" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[calc(100%-1rem)] max-h-full">
+  <div class="relative w-full max-w-md max-h-full">
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <div class="p-6 space-y-6">
+        <h3 class="text-xl font-medium text-gray-900 dark:text-white">Edit Supplier</h3>
+        <form action="/submitSupplierUpdate"  method="POST" >
+          @csrf
+          <input type="hidden" name="supplierId" id="supplierId">
+          <input type="hidden" name="supplierNameOld" id="supplierNameOld">
+          <input type="hidden" name="supplierAccountHolderOld" id="supplierAccountHolderOld">
+
+          <input type="hidden" name="accountHolderName" id="accountHolderName">
+          <input type="hidden" name="accountHolderUserName" id="accountHolderUserName">
+          <input type="hidden" name="accountHolderEmail" id="accountHolderEmail">
+
+
+
+          <!-- Supplier Name -->
+          <div class="mb-4">
+            <label for="supplierName" class="block text-sm font-medium text-gray-700 dark:text-white">Supplier Name</label>
+            <input type="text" id="supplierName" name="supplierName" class="w-full border rounded px-3 py-2 dark:bg-gray-600 dark:text-white" />
+          </div>
+
+          <!-- Account Holder Select -->
+          <div class="mb-4">
+            <label for="accountHolder" class="block text-sm font-medium text-gray-700 dark:text-white">Account Holder</label>
+            <select id="accountHolder" name="accountHolder" class="select2 js-example-basic-single w-full border rounded px-3 py-2 dark:bg-gray-600 dark:text-white">
+              @foreach($users as $user)
+                <option data-accout-holder-user-name="{{ $user->userName }}" data-accout-holder-name="{{ $user->name }}" data-accout-holder-email="{{ $user->email }}" value="{{ $user->id }}">{{ $user->name }}</option>
+              @endforeach
+            </select>
+          </div>
+           <!-- Buttons -->
+      <div class="flex justify-end p-4 space-x-2">
+        <button data-modal-hide="editSupplierModal" type="button" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
+        <button  class="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
+      </div>
+        </form>
+      </div>
+
+     
+    </div>
+  </div>
+</div>
+
+<div id="addSupplierModal" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[calc(100%-1rem)] max-h-full">
+  <div class="relative w-full max-w-md max-h-full">
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <div class="p-6 space-y-6">
+        <h3 class="text-xl font-medium text-gray-900 dark:text-white">Add Supplier</h3>
+        <form action="/submitSupplierAdd"  method="POST" >
+          @csrf
+   
+          <input type="hidden" name="accountHolderNameAdd" id="accountHolderNameAdd">
+          <input type="hidden" name="accountHolderUserNameAdd" id="accountHolderUserNameAdd">
+          <input type="hidden" name="accountHolderEmailAdd" id="accountHolderEmailAdd">
+
+
+
+          <!-- Supplier Name -->
+          <div class="mb-4">
+            <label for="supplierNameAdd" class="block text-sm font-medium text-gray-700 dark:text-white">Supplier Name</label>
+            <input type="text" id="supplierNameAdd" name="supplierNameAdd" class="w-full border rounded px-3 py-2 dark:bg-gray-600 dark:text-white" />
+          </div>
+
+          <!-- Account Holder Select -->
+          <div class="mb-4">
+            <label for="accountHolderAdd" class="block text-sm font-medium text-gray-700 dark:text-white">Account Holder</label>
+            <select id="accountHolderAdd" name="accountHolderAdd" class="select2 js-example-basic-single w-full border rounded px-3 py-2 dark:bg-gray-600 dark:text-white">
+              @foreach($users as $user)
+                <option data-accout-holder-user-name="{{ $user->userName }}" data-accout-holder-name="{{ $user->name }}" data-accout-holder-email="{{ $user->email }}" value="{{ $user->id }}">{{ $user->name }}</option>
+              @endforeach
+            </select>
+          </div>
+           <!-- Buttons -->
+      <div class="flex justify-end p-4 space-x-2">
+        <button data-modal-hide="addSupplierModal" type="button" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
+        <button  class="bg-blue-600 text-white px-4 py-2 rounded">Add</button>
+      </div>
+        </form>
+      </div>
+
+     
+    </div>
+  </div>
+</div>
+
+
+
+
                 @elseif($settings == "typesOfLoa")
                     Type of LOA Settings
                      @elseif($settings == "requirements")
@@ -188,11 +335,14 @@
  
      </div>
    </div>
-</div>
+
 
    </section>
 
        @endauth
 
+
+
+       
 </body>
 </html>
