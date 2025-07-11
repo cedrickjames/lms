@@ -149,6 +149,12 @@ if (!is_null($requirement) && array_key_exists($requirement, $documentFields)) {
     }
 
     public function submitRequirement(Request $request){
+        $link = DB::table('link')->value('link');
+
+$link = $link ?? 'http://localhost:8000/';
+
+
+
              $request->validate([
     'loaId' => 'required',
     'loaName' => 'required',
@@ -183,6 +189,7 @@ $dateSubmitted = date('F j, Y'); // Outputs: June 26, 2025
 ];
 DB::table('submitted_requirements')->insert($insertData);
 
+
 DB::table('list_of_loa')
     ->where('id', $request->input('loaId'))
     ->update([
@@ -195,7 +202,7 @@ DB::table('list_of_loa')
                     'subject' => 'New Requirement Submitted',
                     'title' => 'Requirement Submission',
                     'body' => $request->input('requirementName').' has been submitted by ' .  $request->input('accountHolderName') . ' for ' . $request->input('loaName') . '.',
-                    'link'=>'http://localhost:8000/listOfLOA',
+                    'link'=> $link,
                     'requirement'=> $request->input('requirementName'),
                     'loa'=> $request->input('loaName'),
                     'accountHolder'=>$request->input('accountHolderName'),
@@ -225,6 +232,11 @@ DB::table('list_of_loa')
 
 
     public function confirmRequirement(Request $request){
+
+                $link = DB::table('link')->value('link');
+
+$link = $link ?? 'http://localhost:8000/';
+
              $request->validate([
     'loaId' => 'required',
     'loaName' => 'required',
@@ -309,7 +321,7 @@ DB::table('submitted_requirements')
                     'subject' => 'A Requirement Confirmed',
                     'title' => 'Requirement Completion',
                     'body' => $request->input('requirementName').' has been confirmed by ' .  Auth::user()->name . ' for ' . $request->input('loaName') . '.',
-                    'link'=>'http://localhost:8000/listOfLOA',
+                    'link'=> $link,
                     'requirement'=> $request->input('requirementName'),
                     'loa'=> $request->input('loaName'),
                     'accountHolder'=>$request->input('accountHolderName'),

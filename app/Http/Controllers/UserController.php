@@ -146,14 +146,16 @@ foreach ($requiredDocsField as $field) {
 DB::table('list_of_loa')->insert($insertData);
 
 
-    
+    $link = DB::table('link')->value('link');
+
+$link = $link ?? 'http://localhost:8000/';
 // Prepare email details
      $details = [
          'subject' => 'New LOA Filed',
         'title' => 'Letter of Agreement Submission',
          'body' => 'A new LOA has been filed for ' . $request->input('accountHolder') . ' for supplier ' . $request->input('supplier') . '.',
          'deadline' => $request->input('deadline'),
-         'link'=>'http://localhost:8000/fileALoa',
+         'link'=> $link,
          'type'=> $request->input('typeOfLOA'),
          'accountHolder'=>$request->input('accountHolder'),
          'requiredDocs'=>$requiredDocs,

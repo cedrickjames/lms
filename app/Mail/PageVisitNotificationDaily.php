@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-
+use Illuminate\Support\Facades\DB;
 class PageVisitNotificationDaily extends Mailable
 {
     use Queueable, SerializesModels;
@@ -26,11 +26,13 @@ class PageVisitNotificationDaily extends Mailable
     public function build()
         {
             $subject = 'Approaching the Deadline';
+            $link = DB::table('link')->value('link') ?? 'http://localhost:8000/';
+
         return $this->subject($subject)
         ->view('emails.sampleNotificationDaily')
         ->with([
                 'emailSubject' => $subject,
-                'link'=> 'http://localhost:8000',
+                'link' => $link,
              ]);
 
         }

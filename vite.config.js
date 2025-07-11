@@ -21,6 +21,7 @@ export default defineConfig({
                  'resources/js/app.js',
                  'resources/js/settings.js',
                  'resources/js/overdue.js',
+                 'resources/js/approachingTheDeadline.js',
                  'resources/js/loaDetails.js',
                  'resources/js/listOfLOA.js',
                  'resources/js/fileALoa.js',

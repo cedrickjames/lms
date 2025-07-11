@@ -9,6 +9,9 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
+use Illuminate\Support\Facades\DB;
+
+
 class PageVisitNotification extends Mailable
 {
     use Queueable, SerializesModels;
@@ -27,11 +30,15 @@ class PageVisitNotification extends Mailable
     public function build()
         {
             $subject = 'Overdue LOA';
+            
+
+             $link = DB::table('link')->value('link') ?? 'http://localhost:8000/';
+
         return $this->subject($subject)
         ->view('emails.sampleNotification')
         ->with([
                 'emailSubject' => $subject,
-                  'link'=> 'http://localhost:8000',
+                  'link' => $link,
              ]);
 
         }
