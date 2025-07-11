@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<p>THIS IS A TEST EMAIL ONLY. PLEASE DISREGARD</p>
+{{-- <p>THIS IS A TEST EMAIL ONLY. PLEASE DISREGARD</p> --}}
 <p>Hi {{$details['recepient']}},</p>
 
 <p>{{ $details['body'] }}</p>

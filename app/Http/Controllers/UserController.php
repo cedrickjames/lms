@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SampleMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\Requirement;
 
 
 
@@ -52,6 +52,18 @@ public function showListOfLoa(){
 }
 
 
+
+public function approveUser($id)
+{
+    $user = User::findOrFail($id);
+    $user->status = 1;
+    $user->save();
+
+    return redirect()->back()->with('success', 'User approved successfully.');
+}
+
+
+
 public function submitLoa(Request $request)
 {
 
@@ -64,20 +76,21 @@ public function submitLoa(Request $request)
         $requiredDocs = [];
         $requiredDocsField = [];
 
+$documentFields = \App\Models\Requirement::pluck('requirementName', 'requirementId')->toArray();
 
-          $documentFields = [
-    'requestLetter' => 'Request Letter',
-    'forecast' => 'Forecast',
-    'corMayorsPermitSubconInfoSheet' => "COR / Mayor's Permit / Subcontractor Information Sheet ",
-    'eCertificate' => 'E-Certificate',
-    'photo' => 'Photo',
-    'orderForm' => 'Order Form',
-    'laborCost' => 'Labor Cost',
-    'suretyBond' => 'Surety Bond',
-    'ledgerLiquidation' => "Ledger / Liquidation (PEZA/BOC)",
-    'certification' => 'Certification',
-    'bocSuretyBondApplication' => 'BOC Surety Bond Application',
-];
+//           $documentFields = [
+//     'requestLetter' => 'Request Letter',
+//     'forecast' => 'Forecast',
+//     'corMayorsPermitSubconInfoSheet' => "COR / Mayor's Permit / Subcontractor Information Sheet ",
+//     'eCertificate' => 'E-Certificate',
+//     'photo' => 'Photo',
+//     'orderForm' => 'Order Form',
+//     'laborCost' => 'Labor Cost',
+//     'suretyBond' => 'Surety Bond',
+//     'ledgerLiquidation' => "Ledger / Liquidation (PEZA/BOC)",
+//     'certification' => 'Certification',
+//     'bocSuretyBondApplication' => 'BOC Surety Bond Application',
+// ];
 
         
 foreach ($documentFields as $field => $label) {
@@ -174,15 +187,20 @@ public function login(Request $request)
     ]);
 
     if (auth()->attempt(['userName' => $incomingFields['loginname'], 'password' => $incomingFields['loginpassword']])) {
-        $request->session()->regenerate();
-
-        // Get the authenticated user
         $user = auth()->user();
+
+        // Check if the user's status is 0 (not approved)
+        if ($user->status == 0) {
+            auth()->logout(); // Log out the user immediately
+            return redirect()->back()->with('error', 'Your account is not yet approved.');
+        }
+
+        $request->session()->regenerate();
 
         // Redirect based on user_type
         if ($user->users_type === 'admin') {
             return redirect('/home');
-        } else  {
+        } else {
             return redirect('/submitter');
         }
     }
@@ -190,6 +208,7 @@ public function login(Request $request)
     // If login fails
     return redirect()->back()->with('error', 'Invalid username or password.');
 }
+
 
 
 
@@ -207,7 +226,7 @@ public function register(Request $request){
             'department' => ['required'],
             'password' => ['required', 'min:5', 'max:200'],
             'users_type' => ['required'],
-            'profilePicture' => ['nullable', 'image','max:2048'] 
+            'profilePicture' => ['nullable', 'image','max:2048']
 
         ]);
         
@@ -220,14 +239,17 @@ public function register(Request $request){
 
 
         $incomingFields['password'] = bcrypt($incomingFields['password']);
+        $incomingFields['status'] = 0;
        $user =  User::create($incomingFields);
-       auth()->login($user);
+       return redirect('/');
+
+    //    auth()->login($user);
           
-        if ($user->users_type === 'admin') {
-            return redirect('/home');
-            } else {
-            return redirect('/submitter');
-            }
+    //     if ($user->users_type === 'admin') {
+    //         return redirect('/home');
+    //         } else {
+    //         return redirect('/submitter');
+    //         }
 
     }
 

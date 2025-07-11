@@ -294,11 +294,17 @@
 </div>
             </div>
             <div class="h-full w-[5%]  grid content-center justify-center">
-                <svg class="w-6 h-6 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-            <path fill-rule="evenodd" d="M4.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clip-rule="evenodd" />
-            </svg>
+                 <a href="{{ route('loa.details', ['id' => $allSubmitted->loaId]) }}">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                </svg>
+
+                </a>
+
 
             </div>
+
+            
         </div>
         @endforeach
 
@@ -320,9 +326,16 @@
                 <div class="grid content-center  text-base ">{{ \Carbon\Carbon::parse($old->created_at)->format('g:i A') }}</div>
             </div>
             <div class="h-full w-[5%]  grid content-center justify-center">
+                <a href="{{ route('loa.details', ['id' => $old->loaId]) }}">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                </svg>
+
+                </a>
+{{-- 
                 <svg class="w-6 h-6 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
             <path fill-rule="evenodd" d="M4.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clip-rule="evenodd" />
-            </svg>
+            </svg> --}}
 
             </div>
         </div>
@@ -331,18 +344,17 @@
         
     </div>
   </div>
-  <div class="p-2 font-semibold border-solid border-2 border-[#3a4d39] rounded-md bg-[#047bd6] text-white  mr-4 overflow-auto">Email Notification Status
+  <div class="p-2 font-semibold border-solid border-2 border-[#3a4d39] rounded-md bg-[#047bd6] text-white  mr-4 overflow-auto">For Approval
      <div class="rounded-md bg-white text-[9px] text-gray-500 p-2 w-full ">
         
  <table id="myTable3" class="display">
     <thead>
         <tr>
             <th>No.</th>
-            <th>LOA Name</th>
-            <th>Date Sent</th>
-            <th>Send Status</th>
-            <th>Frequency Type</th>
-            <th>Remarks</th>
+            <th>Requirement</th>
+            <th>Account Holder</th>
+            <th>Date Submitted</th>
+            <th>Supplier</th>
             <th>Action</th>
 
 
@@ -352,57 +364,28 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>LOA 111-123</td>
-            <td>June 24, 2025</td>
+
+        @foreach($forApproval as $forApproval)
+            <tr>
+                         
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $forApproval->requirementName }}</td>
+            <td>{{ $forApproval->accountHolderName }}</td>
+            <td>{{ $forApproval->dateSubmitted }}</td>
+            <td>{{ $forApproval->supplier }}</td>
             <td>
-                <div class="flex">
-                    <svg class="h-4 w-4 text-[#00cc00]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
-                    </svg>
-                    <h1>Sent</h1>
-
-
-                </div>
-            </td>
-            <td>Monthly</td>
-            <td>Due in 2 months</td>
-            <td>
-                 <button type="button" class="text-white bg-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-md  p-1 my-2 text-center me-2 mb-2">Retry</button>
-            </td>
+                <a href="{{ route('loa.details', ['id' => $forApproval->loaId]) }}">
+                <button type="button" class="text-white bg-[#047bd6] focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-md  p-1 my-2 text-center me-2 mb-2">View</button>       </td>
+                    </a>
 
 
 
+                    </tr>
 
-        </tr>
+                    @endforeach
 
+        
 
-        <tr>
-            <td>1</td>
-            <td>LOA 111-123</td>
-            <td>June 24, 2025</td>
-            <td>
-                <div class="flex">
-                    <svg class="h-4 w-4 text-[#ee3432]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z" clip-rule="evenodd" />
-                    </svg>
-
-                    <h1>Failed</h1>
-
-
-                </div>
-            </td>
-            <td>Monthly</td>
-            <td>Due in 2 months</td>
-            <td>
-                    <button type="button" class="text-white bg-[#047bd6] focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-md  p-1 my-2 text-center me-2 mb-2">Retry</button>
-            </td>
-
-
-
-
-        </tr>
         
 
     </tbody>
@@ -423,17 +406,40 @@
         </tr>
     </thead>
     <tbody>
-         <td>1</td>
-         <td>Bini Aiya</td>
-         <td>Production 2</td>
-         <td>Member</td>
+          @foreach($newUsers as $newUsers)
+            <tr>
+                         
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $newUsers->name }}</td>
+            <td>{{ $newUsers->department }}</td>
+                <td>
+        @if ($newUsers->users_type === 'submitter')
+            Account Holder
+        @elseif ($newUsers->users_type === 'admin')
+            Administrator
+        @elseif ($newUsers->users_type === 'head')
+            Department Head
+        @else
+            {{ $newUsers->users_type }}
+        @endif
+    </td>
 
-       
-          <td>
-                <button type="button" class="text-white bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-md  p-1 my-2 text-center me-2 mb-2">Approve</button>
-                <button type="button" class="text-white bg-rose-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-md  p-1 my-2 text-center me-2 mb-2">Decline</button>
-            </td>
-      
+            <td>
+                        
+        <form action="{{ route('approve.user', $newUsers->id) }}" method="POST">
+            @csrf
+            <button type="submit" class="text-white bg-[#047bd6] focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-md p-1 my-2 text-center me-2 mb-2">
+                Approve
+            </button>
+        </form>
+
+ 
+
+
+
+                    </tr>
+
+                    @endforeach
 
     </tbody>
 </table>

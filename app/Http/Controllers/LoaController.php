@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Requirement;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -22,6 +24,7 @@ class LoaController extends Controller
         $deadline = Carbon::parse($loa->deadlineOfCompletion);
         $today = Carbon::today();
         
+        if($loa->status !="Completed"){
 $status = 'Pending';
     $statusColor = 'text-black';
 
@@ -30,7 +33,15 @@ $status = 'Pending';
        $statusColor = 'text-red-500';
     } elseif ($today->diffInDays($deadline) <= 7) {
        $status = 'Approaching the Deadline';
+       $statusColor = 'text-orange-500';
+
     }
+        }
+        else{
+            $status = "Completed";
+            $statusColor = 'text-green-600';
+        }
+
 
 
         $typeDetails = DB::table('type_of_loa')->where('legend', $loa->type)->first();
@@ -41,25 +52,29 @@ $status = 'Pending';
         ->where('legend', $loa->type)
         ->first();
 
+
+
         $requiredDocs = [];
         $requiredDocsField = [];
 
+$documentFields = \App\Models\Requirement::pluck('requirementName', 'requirementId')->toArray();
 
 
-          $documentFields = [
-    'requestLetter' => 'Request Letter',
-    'forecast' => 'Forecast',
-    'corMayorsPermitSubconInfoSheet' => "COR / Mayor's Permit / Subcontractor Information Sheet ",
-    'eCertificate' => 'E-Certificate',
-    'photo' => 'Photo',
-    'orderForm' => 'Order Form',
-    'laborCost' => 'Labor Cost',
-    'suretyBond' => 'Surety Bond',
-    'ledgerLiquidation' => "Ledger / Liquidation (PEZA/BOC)",
-    'certification' => 'Certification',
-    'bocSuretyBondApplication' => 'BOC Surety Bond Application',
-        ];
+    //       $documentFields = [
+    // 'requestLetter' => 'Request Letter',
+    // 'forecast' => 'Forecast',
+    // 'corMayorsPermitSubconInfoSheet' => "COR / Mayor's Permit / Subcontractor Information Sheet",
+    // 'eCertificate' => 'E-Certificate',
+    // 'photo' => 'Photo',
+    // 'orderForm' => 'Order Form',
+    // 'laborCost' => 'Labor Cost',
+    // 'suretyBond' => 'Surety Bond',
+    // 'ledgerLiquidation' => "Ledger / Liquidation (PEZA/BOC)",
+    // 'certification' => 'Certification',
+    // 'bocSuretyBondApplication' => 'BOC Surety Bond Application',
+    //     ];
 
+// print_r($documentFields);
                 
         foreach ($documentFields as $field => $label) {
             if (!empty($requirements->$field)) {

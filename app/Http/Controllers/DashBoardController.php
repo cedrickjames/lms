@@ -48,6 +48,17 @@ $approaching = $allLoas->filter(function ($loa) use ($today, $nextWeek) {
     ->whereDate('created_at', Carbon::today('Asia/Manila'))
     ->get();
 
+    
+  $forApproval = DB::table('submitted_requirements')
+    ->where('status', 'For Approval')
+    ->get();
+
+        
+  $newUsers = DB::table('users')
+    ->where('status', '0')
+    ->get();
+
+
 
 $now = Carbon::now('Asia/Manila');
 $oneHourAgo = Carbon::now('Asia/Manila')->subHour();
@@ -108,9 +119,13 @@ $overdueLoasSubmitter = $allLoasSubmitter->filter(function ($loa) use ($todayDat
 
 
 
- return view('home', compact('overdueLoas','approaching','today','recentSubmitted','old','approachingSubmitter','overdueLoasSubmitter'));
+ return view('home', compact('overdueLoas','approaching','today','recentSubmitted','old','approachingSubmitter','overdueLoasSubmitter','forApproval','newUsers'));
 
 }
+
+
+
+
 
 
 public function index()

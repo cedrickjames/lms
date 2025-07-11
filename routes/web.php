@@ -82,11 +82,16 @@ Route::post('/admin/mail-settings', [MailSettingController::class, 'update'])->n
 Route::get('/', function () {
     return view('login');
 });
+Route::post('/approve-user/{id}', [UserController::class, 'approveUser'])->name('approve.user');
+
 Route::post('/logout',[UserController::class, 'logout']);
 
-Route::get('/home',[DashBoardController::class, 'showListOfLoa'], function () {
-    return view('home');
-});
+// Route::get('/home',[DashBoardController::class, 'showListOfLoa'], function () {
+//     return view('home');
+// });
+
+
+Route::get('/home', [DashBoardController::class, 'showListOfLoa'])->middleware('auth');
 
 Route::post('/submit-loa', [UserController::class, 'submitLoa'])->name('submit.loa');
 Route::post('/submit-requirement', [LoaController::class, 'submitRequirement'])->name('submit.requirement');
@@ -94,44 +99,86 @@ Route::post('/confirm-requirement', [LoaController::class, 'confirmRequirement']
 
 
 
-Route::get('/fileALoa', [UserController::class, 'showFileALoa'], function () {
-    return view('fileALoa');
-});
-Route::get('/listOfLOA',[UserController::class, 'showListOfLoa'], function () {
-    return view('listOfLOA');
-});
-Route::get('/listOfLOASubmitter',[UserController::class, 'showListOfLoaAccountHolder'], function () {
-    return view('listOfLOASubmitter11');
-});
+// Route::get('/fileALoa', [UserController::class, 'showFileALoa'], function () {
+//     return view('fileALoa');
+// });
 
 
-Route::get('/loaDetails/{id}/{requirement?}', [LoaController::class, 'show'])->name('loa.details');
-Route::get('/settings/{settings}', [Settings::class, 'settings'])->name('lms.settings');
+Route::get('/fileALoa', [UserController::class, 'showFileALoa'])
+    ->middleware(['auth', 'admin'])
+    ->name('fileALoa');
+
+// Route::get('/listOfLOA',[UserController::class, 'showListOfLoa'], function () {
+//     return view('listOfLOA');
+// });
+Route::get('/listOfLOA',[UserController::class, 'showListOfLoa'])->middleware('auth');
+
+
+// Route::get('/listOfLOASubmitter',[UserController::class, 'showListOfLoaAccountHolder'], function () {
+//     return view('listOfLOASubmitter');
+// });
+
+Route::get('/listOfLOASubmitter',[UserController::class, 'showListOfLoaAccountHolder'])->middleware('auth');
+
+// Route::get('/loaDetails/{id}/{requirement?}', [LoaController::class, 'show'])->name('loa.details');
+
+Route::get('/loaDetails/{id}/{requirement?}', [LoaController::class, 'show'])
+    ->middleware('auth')
+    ->name('loa.details');
+
+
+// Route::get('/settings/{settings}', [Settings::class, 'settings'])->name('lms.settings');
+Route::get('/settings/{settings}', [Settings::class, 'settings'])
+    ->middleware('auth')
+    ->name('lms.settings');
 
 
 // Route::get('/settings',[Settings::class,'settings'], function(){
 //     return view('settings');
 // });
-Route::get('/approachingTheDeadline',[tablesController::class, 'showListOfLoaApproaching'], function () {
-    return view('approachingTheDeadline');
-});
+// Route::get('/approachingTheDeadline',[tablesController::class, 'showListOfLoaApproaching'], function () {
+//     return view('approachingTheDeadline');
+// });
 
-Route::get('/approachingTheDeadlineSubmitter',[tablesController::class, 'showListOfLoaApproachingSubmitter'], function () {
-    return view('approachingTheDeadlineSubmitter');
-});
-Route::get('/overdue',[tablesController::class, 'showListOfLoaOverDue'], function () {
-    return view('overdue');
-});
-Route::get('/overdueSubmitter',[tablesController::class, 'showListOfLoaOverDueSubmitter'], function () {
-    return view('overdueSubmitter');
-});
+Route::get('/approachingTheDeadline',[tablesController::class, 'showListOfLoaApproaching'])->middleware('auth');
 
-Route::get('/submitter',[SubmitterDashboardController::class,'showListOfLoa'], function () {
-    return view('submitter');
-});
+
+// Route::get('/approachingTheDeadlineSubmitter',[tablesController::class, 'showListOfLoaApproachingSubmitter'], function () {
+//     return view('approachingTheDeadlineSubmitter');
+// });
+
+Route::get('/approachingTheDeadlineSubmitter',[tablesController::class, 'showListOfLoaApproachingSubmitter'])->middleware('auth');
+
+// Route::get('/overdue',[tablesController::class, 'showListOfLoaOverDue'], function () {
+//     return view('overdue');
+// });
+
+Route::get('/overdue',[tablesController::class, 'showListOfLoaOverDue'])->middleware('auth');
+
+
+
+// Route::get('/overdueSubmitter',[tablesController::class, 'showListOfLoaOverDueSubmitter'], function () {
+//     return view('overdueSubmitter');
+// });
+
+Route::get('/overdueSubmitter',[tablesController::class, 'showListOfLoaOverDueSubmitter'])->middleware('auth');
+
+// Route::get('/submitter',[SubmitterDashboardController::class,'showListOfLoa'], function () {
+//     return view('submitter');
+// });
+Route::get('/submitter',[SubmitterDashboardController::class,'showListOfLoa'])->middleware('auth');
+
+
+
 Route::get('/register', [UserController::class, 'create'], function () {
     return view('register');
 });
+
+Route::post('/updateUsersInfo', [Settings::class, 'updateAccountAdmin'], function () {
+    return view('settings');
+});
+
+
 Route::post('/submitAccountUpdate', [Settings::class, 'updateAccount'], function () {
     return view('settings');
 });
@@ -141,6 +188,20 @@ Route::post('/submitSupplierUpdate', [Settings::class, 'updateSupplier'], functi
 Route::post('/submitSupplierAdd', [Settings::class, 'addSupplier'], function () {
     return view('settings');
 });
+
+Route::post('/submitRequirementAdd', [Settings::class, 'addRequirement'], function () {
+    return view('settings');
+});
+
+Route::post('/submitRequirementEdit', [Settings::class, 'updateRequirements'], function () {
+    return view('settings');
+});
+Route::post('/submitTypeOfLoaAdd', [Settings::class, 'addTypeOfLOA'], function () {
+    return view('settings');
+});
+
+
+
 
 
 

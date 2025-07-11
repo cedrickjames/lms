@@ -114,10 +114,10 @@
 
                      @if (Auth::user()->users_type != "admin" )
                     <button type="button" disabled class=" cursor-not-allowed col-span-2 text-white bg-gradient-to-b from-gray-500 via-gray-400 to-gray-300 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2">Submitted</button>
-                    
+                     
                      @elseif ($requirementQuery->status !="For Approval")
                     <button type="button" disabled class=" cursor-not-allowed col-span-2 text-white bg-gradient-to-b from-gray-500 via-gray-400 to-gray-300 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2">Confirmed</button>
-                
+                     
 
                    @else
           <form action="{{ route('confirm.requirement') }}" method="POST" class="col-span-2">
@@ -139,10 +139,10 @@
 
 
                    </form>
-
+                
                    @endif
 
-
+            
                    @else
                     
                    <form action="{{ route('submit.requirement') }}" method="POST" class="col-span-2">
@@ -159,8 +159,10 @@
                     <input type="text" class="hidden" name="deptHeadEmail" value="{{ $loa->accountHolderDeptHeadEmail}}">
 
                     @if (Auth::user()->users_type != "admin" )
+                        @if($requirementName !="")
                    <button type="submit" class=" w-full col-span-2 text-white bg-gradient-to-b from-[#3a4d39] via-[#4f6f52] to-[#739072] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2">Submit</button>
-
+                      @endif
+                
                 @else
 
                   @endif
@@ -168,7 +170,7 @@
 
 
                    </form>
-
+                
                    @endif
 
 

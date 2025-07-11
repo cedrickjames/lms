@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<p>THIS IS A TEST EMAIL ONLY. PLEASE DISREGARD</p>
+{{-- <p>THIS IS A TEST EMAIL ONLY. PLEASE DISREGARD</p> --}}
 <p>Hi {{ $details['accountHolder'] }},</p>
 
 <p>A Letter of Agreement (LOA) has been filed under your name.</p>
