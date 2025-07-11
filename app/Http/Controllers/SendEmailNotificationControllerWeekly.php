@@ -58,13 +58,20 @@ foreach ($approachingLoas as $loa) {
         }
     }
 
+    
+        $adminEmails = User::where('users_type', 'admin')->pluck('email')->toArray();
+
+$ccEmails = array_merge([$loa->accountHolderDeptHeadEmail], $adminEmails);
+
+
     Mail::to($loa->accountHolderEmail)
-        ->cc($loa->accountHolderDeptHeadEmail)
+        ->cc($ccEmails)
         ->send(new PageVisitNotificationWeekly($loa, $pendingRequirements));
 }
 
 
-    return view('emails.sampleNotificationWeekly', compact('approachingLoas'));
+    // return view('emails.sampleNotificationWeekly', compact('approachingLoas'));
+    return view('emailAlert', ['message' => 'Message sent successfully!']);
 }
 
 

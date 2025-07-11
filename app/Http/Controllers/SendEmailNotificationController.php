@@ -41,6 +41,9 @@ public function showPage()
 //     'certification' => 'Certification',
 //     'bocSuretyBondApplication' => 'BOC Surety Bond Application',
 // ];
+
+
+
 foreach ($overdueLoas as $loa) {
     
     $pendingRequirements = [];
@@ -51,13 +54,24 @@ foreach ($overdueLoas as $loa) {
         }
     }
 
+    $adminEmails = User::where('users_type', 'admin')->pluck('email')->toArray();
+
+$ccEmails = array_merge([$loa->accountHolderDeptHeadEmail], $adminEmails);
+
+
     Mail::to($loa->accountHolderEmail)
-        ->cc($loa->accountHolderDeptHeadEmail)
+        ->cc($ccEmails)
         ->send(new PageVisitNotification($loa, $pendingRequirements));
 }
 
 
-    return view('emails.sampleNotification', compact('overdueLoas'));
+// dd($overdueLoas, $message);
+// return view('emails.sampleNotification', [
+//     'overdueLoas' => $overdueLoas,
+//     'message' => 'Message sent successfully!'
+// ]);
+return view('emailAlert', ['message' => 'Message sent successfully!']);
+    // return view('emails.sampleNotification', compact('overdueLoas'));
 }
 
 

@@ -241,7 +241,13 @@ public function register(Request $request){
         $incomingFields['password'] = bcrypt($incomingFields['password']);
         $incomingFields['status'] = 0;
        $user =  User::create($incomingFields);
-       return redirect('/');
+         $departments = DB::table('department')->get();
+    // Return the registration view with a success message
+    
+        return view('register', [
+                'departments' => $departments,
+                'successMessage' => 'Registration successful! Please wait for admin approval.'
+            ]);
 
     //    auth()->login($user);
           
@@ -252,6 +258,9 @@ public function register(Request $request){
     //         }
 
     }
+
+
+
 
 
 
