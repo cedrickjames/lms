@@ -394,7 +394,7 @@
                     @endforeach
     </div>
   </div>
-  <div class="p-2 font-semibold border-solid border-2 border-[#3a4d39] rounded-md bg-[#047bd6] text-white  mr-4 overflow-auto">Email Notification Status
+  <div class="hidden p-2 font-semibold border-solid border-2 border-[#3a4d39] rounded-md bg-[#047bd6] text-white  mr-4 overflow-auto">Email Notification Status
      <div class="rounded-md bg-white text-[9px] text-gray-500 p-2 w-full ">
         
  <table id="myTable3" class="display">
