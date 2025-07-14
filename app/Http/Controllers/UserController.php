@@ -152,7 +152,7 @@ $link = $link ?? 'http://localhost:8000/';
 // Prepare email details
      $details = [
          'subject' => 'New LOA Filed',
-        'title' => 'Letter of Agreement Submission',
+        'title' => 'Letter of Autority Submission',
          'body' => 'A new LOA has been filed for ' . $request->input('accountHolder') . ' for supplier ' . $request->input('supplier') . '.',
          'deadline' => $request->input('deadline'),
          'link'=> $link,
