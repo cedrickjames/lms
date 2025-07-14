@@ -12,6 +12,7 @@
 <p>A Letter of Autority (LOA) has been filed under your name.</p>
 
 <p><strong>Type of LOA:</strong> {{ $details['type'] }}</p>
+<p><strong>Applied Quantity:</strong> {{ $details['appliedQty'] }}</p>
 
 <p>Please ensure that all required documents are submitted before the deadline: <strong>{{ $details['deadline'] }}</strong>.</p>
 <p><strong>Required Documents:</strong></p>

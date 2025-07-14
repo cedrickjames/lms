@@ -78,7 +78,8 @@
 
 
          <div class="grid md:grid-cols-2 md:gap-x-6 gap-y-3 h-full mb-4">
-                  <div class="relative z-0 w-full  group">
+            <div class="col-span-2 grid grid-cols-3 gap-x-6">
+                <div class="relative z-0 w-full  group">
                         <label for="loa" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name of LOA</label>
                         <input type="text" id="loa" name="loa" class=" border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                     </div>
@@ -93,7 +94,12 @@
 
                         </select>
                     </div>
-     <div class="relative z-0 w-full  group col-span-2">
+                    <div class="relative z-0 w-full  group">
+                        <label for="qtyApplied" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantity Applied</label>
+                        <input type="number" id="qtyApplied" name="qtyApplied" class=" border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                    </div>
+                    </div>
+                <div class="relative z-0 w-full  group col-span-2">
                         <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Supplier</label>
                         <select id="supplier" name="supplier" class="select2 js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option disabled selected>Select Supplier</option>
@@ -102,7 +108,10 @@
                          @endforeach
 
                         </select>
-                    </div>
+                    </div> 
+
+
+                  
                    
                     <div class="relative z-0 w-full  group">
                                 <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Account Holder</label>

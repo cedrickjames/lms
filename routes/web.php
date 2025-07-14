@@ -94,6 +94,7 @@ Route::post('/logout',[UserController::class, 'logout']);
 Route::get('/home', [DashBoardController::class, 'showListOfLoa'])->middleware('auth');
 
 Route::post('/submit-loa', [UserController::class, 'submitLoa'])->name('submit.loa');
+Route::post('/edit-loa', [UserController::class, 'editLoa'])->name('edit.loa');
 Route::post('/submit-requirement', [LoaController::class, 'submitRequirement'])->name('submit.requirement');
 Route::post('/confirm-requirement', [LoaController::class, 'confirmRequirement'])->name('confirm.requirement');
 
@@ -176,6 +177,9 @@ Route::get('/register', [UserController::class, 'create'], function () {
 
 Route::post('/updateUsersInfo', [Settings::class, 'updateAccountAdmin'], function () {
     return view('settings');
+});
+Route::post('/updateLoaInfo', [Settings::class, 'updateLoaInformation'], function () {
+    return view('loaDetails');
 });
 
 

@@ -105,6 +105,7 @@ foreach ($documentFields as $field => $label) {
      $request->validate([
     'loa' => 'required',
     'typeOfLOA' => 'required',
+    'qtyApplied' => 'required',
     'supplier' => 'required',
     'accountHolder' => 'required',
     'accountHolderEmail' => 'required|email',
@@ -121,6 +122,7 @@ foreach ($documentFields as $field => $label) {
 $insertData = [
     'loa' => $request->input('loa'),
     'type' => $request->input('typeOfLOA'),
+    'applied_qty' => $request->input('qtyApplied'),
     'supplier' => $request->input('supplier'),
     'accountHolder' => $request->input('accountHolder'),
     'accountHolderEmail' => $request->input('accountHolderEmail'),
@@ -157,6 +159,7 @@ $link = $link ?? 'http://localhost:8000/';
          'deadline' => $request->input('deadline'),
          'link'=> $link,
          'type'=> $request->input('typeOfLOA'),
+         'appliedQty'=> $request->input('qtyApplied'),
          'accountHolder'=>$request->input('accountHolder'),
          'requiredDocs'=>$requiredDocs,
      ];

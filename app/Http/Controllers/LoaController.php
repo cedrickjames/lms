@@ -145,9 +145,91 @@ if (!is_null($requirement) && array_key_exists($requirement, $documentFields)) {
 }
 
 
-        return view('loaDetails', compact('loa', 'typeDetails','status', 'statusColor', 'requiredDocs' ,'requiredDocsNameWithStatus','requirementQuery','requirement','requirementName'));
+    $typesOfLoa = DB::table('type_of_loa')->get();
+    $supplier = DB::table('supplier')->get(); // or your actual table name
+    $user = DB::table('users')->get(); // or your actual table name
+    $email = DB::table('users')->get(); 
+
+    $deptHead = DB::table('users')->where('users_type', 'head')->get();  // SELECT * FROM users WHERE users_type = 'head';
+    $deptHeadEmail = DB::table('users')->where('users_type', 'head')->get(); 
+
+
+
+
+        return view('loaDetails', compact('loa', 'typeDetails','status', 'statusColor', 'requiredDocs' ,'requiredDocsNameWithStatus','requirementQuery','requirement','requirementName','typesOfLoa', 'supplier','user','email','deptHead','deptHeadEmail'));
     }
 
+
+    public function editLoa(Request $request){
+
+     $type = $request->input('typeOfLOA');
+
+        $requirements = DB::table('type_of_loa')
+            ->where('legend', $type)
+            ->first();
+
+            $requiredDocs = [];
+            $requiredDocsField = [];
+
+    $documentFields = \App\Models\Requirement::pluck('requirementName', 'requirementId')->toArray();
+    foreach ($documentFields as $field => $label) {
+        if (!empty($requirements->$field)) {
+        $requiredDocs[] = $label;
+        $requiredDocsField[] = $field;
+
+        }
+    }
+
+     $request->validate([
+    'loaId' => 'required',
+    'loa' => 'required',
+    'typeOfLOA' => 'required',
+    'qtyApplied' => 'required',
+    'supplier' => 'required',
+    'accountHolder' => 'required',
+    'accountHolderEmail' => 'required|email',
+    'accountHolderDeptHead' => 'required',
+    'accountHolderDeptHeadEmail' => 'required|email',
+    'expiry' => 'required|date',
+    'deadline' => 'required|date',
+     ]);
+
+    $numberOfRequirement = count($requiredDocs);
+
+
+$insertData = [
+    'loa' => $request->input('loa'),
+    'type' => $request->input('typeOfLOA'),
+    'applied_qty' => $request->input('qtyApplied'),
+    'supplier' => $request->input('supplier'),
+    'accountHolder' => $request->input('accountHolder'),
+    'accountHolderEmail' => $request->input('accountHolderEmail'),
+    'accountHolderDeptHead' => $request->input('accountHolderDeptHead'),
+    'accountHolderDeptHeadEmail' => $request->input('accountHolderDeptHeadEmail'),
+    'contractExpirationDate' => $request->input('expiry'),
+    'deadlineOfCompletion' => $request->input('deadline'),
+    'updated_at' => \Carbon\Carbon::now('Asia/Manila'),
+    'numberOfRequirement' => $numberOfRequirement,
+    'accountHolderUserName' => $request->input('username'),
+    'filedBy' => Auth::user()->name,
+    'filedById' => Auth::user()->userName
+
+];
+
+foreach ($requiredDocsField as $field) {
+    $insertData[$field] = 'Pending';
+}
+
+    // Update related tables (same as before)
+    DB::table('list_of_loa')
+        ->where('id', $request->input('loaId'))
+        ->update($insertData);
+
+  return redirect()->back()->with('success', 'LOA updated successfully!');
+
+
+
+    }   
     public function submitRequirement(Request $request){
         $link = DB::table('link')->value('link');
 
