@@ -486,36 +486,7 @@
         </div>
 
 
-        <!-- Date Input -->
-<input type="text" id="expiry" name="expiry"
-    class="border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-    placeholder="Please select a Date" required />
 
-<!-- Button to open Flatpickr and set date -->
-<button type="button"
-    data-contractExpirationDate="2025-08-01"
-    onclick="setFlatpickrDate(this)"
-    class="absolute inset-y-0 right-0 flex items-center pr-3">
-    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-    </svg>
-</button>
-
-<!-- Flatpickr Initialization -->
-<script>
-    // Store the Flatpickr instance
-    const fp = flatpickr("#expiry", {
-        dateFormat: "Y-m-d"
-    });
-
-    // Function to set date from button
-    function setFlatpickrDate(button) {
-        const dateStr = button.getAttribute('data-contractExpirationDate');
-        fp.setDate(dateStr, true); // true = trigger change event
-        fp.open(); // optional: open the calendar
-    }
-</script>
 
 
        @endauth
